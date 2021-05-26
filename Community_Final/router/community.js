@@ -4,9 +4,51 @@ const path = require('path');
 const connection = require('../db/db.js');
 
 // 메인 페이지 
+
 router.get('/', function(req,res){
-        return res.render('index.ejs')
+    var review_name = '후기'
+    connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 3) displayreview ',review_name, async (error, result) => {
+        if(error){
+            console.log(error)
+        }
+        // 해당 값이 없다면 :
+        if( !result ){
+            // return res.render(`index.ejs`,{ data : [] });
+            console.log("asdfasdfsafsafs")
+            return res.render('index.ejs')
+        }
+        review_post = result
+        console.log(review_post)
+        var prepare_name = '준비'
+        connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 3)displayprepare ',prepare_name, async (error, result) => {
+            if(error){
+                console.log(error);
+            }
+            // 해당 값이 없다면 :
+            if( !result ){
+                // return res.render(`index.ejs`,{ data : [] });
+                return res.render('index.ejs')
+            }
+            prepare_post =result
+            console.log(prepare_post)
+            var free_name = '자유'
+            connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 3)displayreview ',free_name, async (error, result) => {
+                if(error){
+                    console.log(error);
+                }
+                // 해당 값이 없다면 :
+                if( !result ){
+                    // return res.render(`index.ejs`,{ data : [] });
+                    return res.render('index.ejs')
+                }
+                free_post = result
+                console.log(result)
+                return res.render('index.ejs',{review:review_post,prepare:prepare_post,free:free_post})
+            })
+        })
+    })
 })
+
 // 후기 게시판
 router.get('/feedbackboard', function(req,res){
     return res.render('feedbackboard.ejs')
