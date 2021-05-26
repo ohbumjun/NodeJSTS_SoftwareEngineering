@@ -54,8 +54,23 @@ router.get('/', function(req,res){
 
 // 후기 게시판
 router.get('/feedbackboard', function(req,res){
-    return res.render('feedbackboard.ejs')
+    var review_name = '후기'
+    connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 6)displayprepare ',review_name, async (error, result) => {
+        if(error){
+            console.log(error);
+        }
+        // 해당 값이 없다면 :
+        if( !result ){
+            // return res.render(`index.ejs`,{ data : [] });
+            return res.render('index.ejs')
+        }
+        console.log("후기 게시판의 데이터들은?")
+        console.log(result)
+        return res.render('feedbackboard.ejs',{review:result})
+    })
+    
 })
+
 // 후기 게시판 -- 개별 게시물 
 router.get('/freeboard/post/:postId', function(req,res){
     return res.render('freeboard.ejs')
@@ -63,8 +78,21 @@ router.get('/freeboard/post/:postId', function(req,res){
 
 // 준비 게시판
 router.get('/prepareboard', function(req,res){
-    return res.render('prepareboard.ejs')
+    var prepare_name = '준비'
+    connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 6)displayprepare ',prepare_name, async (error, result) => {
+        if(error){
+            console.log(error);
+        }
+        // 해당 값이 없다면 :
+        if( !result ){
+            // return res.render(`index.ejs`,{ data : [] });
+            return res.render('index.ejs')
+        }
+        console.log("준비 게시판의 데이터들은?")
+        return res.render('prepareboard.ejs',{prepare:result})
+    })
 })
+
 // 준비 게시판 -- 개별 게시물 
 router.get('/freeboard/post/:postId', function(req,res){
     return res.render('freeboard.ejs')
@@ -72,8 +100,21 @@ router.get('/freeboard/post/:postId', function(req,res){
 
 // 자유 게시판 
 router.get('/freeboard', function(req,res){
-    return res.render('freeboard.ejs')
+    var free_name = '자유'
+    connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 6)displayprepare ',free_name, async (error, result) => {
+        if(error){
+            console.log(error);
+        }
+        // 해당 값이 없다면 :
+        if( !result ){
+            // return res.render(`index.ejs`,{ data : [] });
+            return res.render('index.ejs')
+        }
+        console.log("자유 게시판의 데이터들은?")
+        return res.render('freeboard.ejs',{free:result})
+    })
 })
+
 // 자유 게시판  -- 개별 게시물 
 router.get('/freeboard/post/:postId', function(req,res){
     return res.render('freeboard.ejs')
