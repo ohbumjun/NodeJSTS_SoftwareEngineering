@@ -6,19 +6,17 @@ const connection = require('../db/db.js');
 
 // 이야기
 router.get('/', function(req,res){
-    /*
-    connection.db_rest.query( 'SELECT * FROM admin_mainscreen', async (error, result) => {
+    connection.db.query( 'SELECT * FROM post ', async (error, result) => {
         if(error){
-            // console.log(error);
+            console.log(error);
         }
         // 해당 값이 없다면 : 
-        if( result[0]== undefined){
-            return res.render(`admin/adminPart${option}`,{ data : [] });
+        if( !result ){
+            // return res.render(`index.ejs`,{ data : [] });
+            return res.render('index.ejs')
         }
-        return res.render(`admin/adminPart${option}`, { data : result });
+        return res.render('index.ejs')
     })
-    */
-    return res.render('index.ejs')
 })
 
 
