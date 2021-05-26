@@ -6,6 +6,7 @@ const connection = require('../db/db.js');
 
 // 이야기
 router.get('/', function(req,res){
+    /*
     connection.db.query( 'SELECT * FROM post ', async (error, result) => {
         if(error){
             console.log(error);
@@ -15,8 +16,9 @@ router.get('/', function(req,res){
             // return res.render(`index.ejs`,{ data : [] });
             return res.render('index.ejs')
         }
-        return res.render('index.ejs')
     })
+    */
+    return res.render('index.ejs')
 })
 
 
