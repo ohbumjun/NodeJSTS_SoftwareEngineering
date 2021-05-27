@@ -100,6 +100,8 @@ router.get('/feedbackboard/post/:postId', function(req,res){
         return new Promise((resolve,reject) =>{
             connection.db.query( `
                 select * from comment 
+                join user
+                on comment.user_id = user.user_id
                 where post_id = ?`,
                 [postId], 
                 async (error, commentData) => {
@@ -251,6 +253,9 @@ router.get('/freeboard/post/:postId', function(req,res){
             })
         })
     }
+
+    // async : promise가 resolve 되어 넘어올때까지 기다린다 
+     
 
     Promise.all([userInfo(),commentInfo()])
     .then(results=>{

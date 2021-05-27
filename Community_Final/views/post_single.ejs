@@ -201,7 +201,13 @@
                   <div class="d-flex">
                     <div class="comment-img"><img src="/img/blog/comments-1.jpg" alt=""></div>
                     <div>
-                      <h5><a href="">Georgia Reader</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
+                      <h5>
+                        <a href=""><%= comment.user_name %></a> 
+                        <a href="#" class="reply">
+                          <i class="bi bi-reply-fill"></i> 
+                          <%= comment.univ %> <%= comment.major %>
+                        </a>
+                      </h5>
                       <time datetime="2020-01-01"><%= moment(comment.posted_date).format('Do MMM, YYYY') %></time>
                       <p>
                         <%= comment.content %>  
