@@ -45,6 +45,10 @@ app.engine('html', require('ejs').renderFile);
 const community = require('./router/community')
 app.use('/community/', community)
 
+// Mypage --- 
+const mypage = require('./router/mypage')
+app.use('/community/', mypage)
+
 // Industrial 
 // const Industrial = require('./router/industrial')
 // app.use('/industrial/', Industrial)

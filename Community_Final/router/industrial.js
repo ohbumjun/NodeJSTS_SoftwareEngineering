@@ -1,7 +1,0 @@
-DATABASE = gapyear
-DATABASE_COPY = gapyear_copy
-DATABASE_REST = gapyear_rest
-DATABASE_HOST = localhost
-DATABASE_USER = root
-DATABASE_PASSWORD = dhsys112
-DATABASE_PORT = 3306
