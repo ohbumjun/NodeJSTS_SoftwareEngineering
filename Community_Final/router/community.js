@@ -276,20 +276,23 @@ router.post('/reportComment',(req,res)=>{
         }
         return res.status(200).json({message:'success'})
     })
-    /* 
-    const postId = req.body.postId
-    connection.db_rest.query(`
-    delete * from comment 
-    where comment_id= ?;`,
-        [postId],
-        (err, result) => {
-            if(err){
-                console.log(err)
-                return res.status(404).json({message:'failure'})
-            }
-            return res.status(200).json({message:'success'})
+})
+
+// 게시글 신고 
+router.post('/reportPost',(req,res)=>{
+    const {boardType,postId} = req.body
+    connection.db.query(`
+    update post 
+    set report_type = 1
+    where post_id= ?`,
+    [postId],
+    (err, result) => {
+        if(err){
+            console.log(err)
+            return res.status(404).json({message:'failure'})
+        }
+        return res.status(200).json({message:'success'})
     })
-    */
 })
 
 // 마이페이지 프로그램 삭제
