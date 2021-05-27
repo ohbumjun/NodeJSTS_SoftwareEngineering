@@ -72,8 +72,23 @@ router.get('/feedbackboard', function(req,res){
 })
 
 // 후기 게시판 -- 개별 게시물 
-router.get('/freeboard/post/:postId', function(req,res){
-    return res.render('freeboard.ejs')
+router.get('/feedbackboard/post/:postId', function(req,res){
+    const {postId} = req.params
+    console.log("postId" ,postId)
+    connection.db.query( 'select * from post where post_type = ? and post_id = ?',
+    ["후기", postId], 
+    async (error, result) => {
+        if(error){
+            console.log(error);
+        }
+        // 해당 값이 없다면 :
+        if( !result ){
+            // return res.render(`index.ejs`,{ data : [] });
+            return res.render('index.ejs')
+        }
+        console.log(result)
+        res.render('post_single.ejs',{review:result})
+    })
 })
 
 // 준비 게시판
@@ -94,9 +109,25 @@ router.get('/prepareboard', function(req,res){
 })
 
 // 준비 게시판 -- 개별 게시물 
-router.get('/freeboard/post/:postId', function(req,res){
-    return res.render('freeboard.ejs')
+router.get('/prepareboard/post/:postId', function(req,res){
+    const {postId} = req.params
+    console.log("postId" ,postId)
+    connection.db.query( 'select * from post where post_type = ? and post_id = ?',
+    ["준비", postId], 
+    async (error, result) => {
+        if(error){
+            console.log(error);
+        }
+        // 해당 값이 없다면 :
+        if( !result ){
+            // return res.render(`index.ejs`,{ data : [] });
+            return res.render('index.ejs')
+        }
+        console.log(result)
+        res.render('post_single.ejs',{review:result})
+    })
 })
+
 
 // 자유 게시판 
 router.get('/freeboard', function(req,res){
@@ -115,9 +146,24 @@ router.get('/freeboard', function(req,res){
     })
 })
 
-// 자유 게시판  -- 개별 게시물 
+// 자유 게시판 -- 개별 게시물 
 router.get('/freeboard/post/:postId', function(req,res){
-    return res.render('freeboard.ejs')
+    const {postId} = req.params
+    console.log("postId" ,postId)
+    connection.db.query( 'select * from post where post_type = ? and post_id = ?',
+    ["자유", postId], 
+    async (error, result) => {
+        if(error){
+            console.log(error);
+        }
+        // 해당 값이 없다면 :
+        if( !result ){
+            // return res.render(`index.ejs`,{ data : [] });
+            return res.render('index.ejs')
+        }
+        console.log(result)
+        res.render('post_single.ejs',{review:result})
+    })
 })
 
 
