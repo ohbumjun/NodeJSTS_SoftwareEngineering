@@ -4,7 +4,6 @@ const path = require('path');
 const connection = require('../db/db.js');
 
 // 메인 페이지 
-
 router.get('/', function(req,res){
     var review_name = '후기'
     connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 3) displayreview ',review_name, async (error, result) => {
@@ -14,7 +13,6 @@ router.get('/', function(req,res){
         // 해당 값이 없다면 :
         if( !result ){
             // return res.render(`index.ejs`,{ data : [] });
-            console.log("asdfasdfsafsafs")
             return res.render('index.ejs')
         }
         review_post = result
@@ -68,14 +66,12 @@ router.get('/feedbackboard', function(req,res){
         console.log(result)
         return res.render('feedbackboard.ejs',{review:result})
     })
-    
 })
 
 // 후기 게시판 -- 개별 게시물 
 router.get('/feedbackboard/post/:postId', function(req,res){
     const {postId} = req.params
     console.log("postId" ,postId)
-
     // User Info
     let userInfo = () => {
         return new Promise((resolve,reject) =>{
@@ -255,13 +251,8 @@ router.get('/freeboard/post/:postId', function(req,res){
     }
 
     // async : promise가 resolve 되어 넘어올때까지 기다린다 
-     
-
     Promise.all([userInfo(),commentInfo()])
     .then(results=>{
-        console.log("promise All results", results)
-        console.log("userInfo", results[0])
-        console.log("commentInfo",results[1])
         let userInfo = results[0][0] // 객체 형태로 전달
         let commentInfo = results[1] // 배열 형태로 전달
         return res.render('post_single.ejs',{userInfo,commentInfo})
@@ -269,6 +260,37 @@ router.get('/freeboard/post/:postId', function(req,res){
     .catch(err=>console.log(err))
 })
 
+// 댓글 신고 
+router.post('/reportComment',(req,res)=>{
+    console.log("req",req.body)
+    const {boardType,commentId} = req.body
+    connection.db.query(`
+    update comment 
+    set report_type = 1
+    where comment_id= ?`,
+    [commentId],
+    (err, result) => {
+        if(err){
+            console.log(err)
+            return res.status(404).json({message:'failure'})
+        }
+        return res.status(200).json({message:'success'})
+    })
+    /* 
+    const postId = req.body.postId
+    connection.db_rest.query(`
+    delete * from comment 
+    where comment_id= ?;`,
+        [postId],
+        (err, result) => {
+            if(err){
+                console.log(err)
+                return res.status(404).json({message:'failure'})
+            }
+            return res.status(200).json({message:'success'})
+    })
+    */
+})
 
 // 마이페이지 프로그램 삭제
 router.post('/myprogDelete', function(req,res){

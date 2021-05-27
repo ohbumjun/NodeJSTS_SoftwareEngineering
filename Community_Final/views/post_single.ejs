@@ -201,21 +201,23 @@
                   <div class="d-flex">
                     <div class="comment-img"><img src="/img/blog/comments-1.jpg" alt=""></div>
                     <div>
-                      <h5>
-                        <a href=""><%= comment.user_name %></a> 
-                        <a href="#" class="reply">
-                          <i class="bi bi-reply-fill"></i> 
-                          <%= comment.univ %> <%= comment.major %>
-                        </a>
+                      <h5 >
+                        <span><%= comment.user_name %></span>
+                        <i id="alertIcon" data-id="<%= comment.comment_id %>" class="bi bi-exclamation-octagon"></i>
+                        <span>신고</span>
                       </h5>
-                      <time datetime="2020-01-01"><%= moment(comment.posted_date).format('Do MMM, YYYY') %></time>
                       <p>
                         <%= comment.content %>  
+                      </p>
+                      <p>
+                        <time datetime="2020-01-01"><%= moment(comment.posted_date).format('Do MMM, YYYY') %></time>
+                        <%= comment.univ %> <%= comment.major %>
                       </p>
                     </div>
                   </div>
                 </div>
               <%}) %>
+
               <!-- <div id="comment-1" class="comment">
                 <div class="d-flex">
                   <div class="comment-img"><img src="/img/blog/comments-1.jpg" alt=""></div>
@@ -346,6 +348,7 @@
 
   <!-- Template Main JS File -->
   <script src="/js/main.js"></script>
+  <script type = "module" src="/js/community.js"></script>
 
 </body>
 
