@@ -75,20 +75,53 @@ router.get('/feedbackboard', function(req,res){
 router.get('/feedbackboard/post/:postId', function(req,res){
     const {postId} = req.params
     console.log("postId" ,postId)
-    connection.db.query( 'select * from post where post_type = ? and post_id = ?',
-    ["후기", postId], 
-    async (error, result) => {
-        if(error){
-            console.log(error);
-        }
-        // 해당 값이 없다면 :
-        if( !result ){
-            // return res.render(`index.ejs`,{ data : [] });
-            return res.render('index.ejs')
-        }
-        console.log(result)
-        res.render('post_single.ejs',{review:result})
+
+    // User Info
+    let userInfo = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from post 
+                join user
+                on post.user_id = user.user_id
+                where post_type = ? and post_id = ?`,
+                ["후기",postId], 
+                async (error, userData) => {
+                if(error){
+                    // console.log("user Error",error)
+                    reject(new Error())
+                }
+                resolve(userData)
+            })
+        })
+    }
+
+    // Comment Info
+    let commentInfo = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from comment 
+                where post_id = ?`,
+                [postId], 
+                async (error, commentData) => {
+                if(error){
+                    // console.log("comment Error",error)
+                    reject(new Error())
+                }
+                resolve(commentData)
+            })
+        })
+    }
+
+    Promise.all([userInfo(),commentInfo()])
+    .then(results=>{
+        console.log("promise All results", results)
+        console.log("userInfo", results[0])
+        console.log("commentInfo",results[1])
+        let userInfo = results[0][0] // 객체 형태로 전달
+        let commentInfo = results[1] // 배열 형태로 전달
+        return res.render('post_single.ejs',{userInfo,commentInfo})
     })
+    .catch(err=>console.log(err))
 })
 
 // 준비 게시판
@@ -112,20 +145,53 @@ router.get('/prepareboard', function(req,res){
 router.get('/prepareboard/post/:postId', function(req,res){
     const {postId} = req.params
     console.log("postId" ,postId)
-    connection.db.query( 'select * from post where post_type = ? and post_id = ?',
-    ["준비", postId], 
-    async (error, result) => {
-        if(error){
-            console.log(error);
-        }
-        // 해당 값이 없다면 :
-        if( !result ){
-            // return res.render(`index.ejs`,{ data : [] });
-            return res.render('index.ejs')
-        }
-        console.log(result)
-        res.render('post_single.ejs',{review:result})
+
+    // User Info
+    let userInfo = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from post 
+                join user
+                on post.user_id = user.user_id
+                where post_type = ? and post_id = ?`,
+                ["준비",postId], 
+                async (error, userData) => {
+                if(error){
+                    // console.log("user Error",error)
+                    reject(new Error())
+                }
+                resolve(userData)
+            })
+        })
+    }
+
+    // Comment Info
+    let commentInfo = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from comment 
+                where post_id = ?`,
+                [postId], 
+                async (error, commentData) => {
+                if(error){
+                    // console.log("comment Error",error)
+                    reject(new Error())
+                }
+                resolve(commentData)
+            })
+        })
+    }
+
+    Promise.all([userInfo(),commentInfo()])
+    .then(results=>{
+        console.log("promise All results", results)
+        console.log("userInfo", results[0])
+        console.log("commentInfo",results[1])
+        let userInfo = results[0][0] // 객체 형태로 전달
+        let commentInfo = results[1] // 배열 형태로 전달
+        return res.render('post_single.ejs',{userInfo,commentInfo})
     })
+    .catch(err=>console.log(err))
 })
 
 
@@ -150,20 +216,52 @@ router.get('/freeboard', function(req,res){
 router.get('/freeboard/post/:postId', function(req,res){
     const {postId} = req.params
     console.log("postId" ,postId)
-    connection.db.query( 'select * from post where post_type = ? and post_id = ?',
-    ["자유", postId], 
-    async (error, result) => {
-        if(error){
-            console.log(error);
-        }
-        // 해당 값이 없다면 :
-        if( !result ){
-            // return res.render(`index.ejs`,{ data : [] });
-            return res.render('index.ejs')
-        }
-        console.log(result)
-        res.render('post_single.ejs',{review:result})
+    // User Info
+    let userInfo = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from post 
+                join user
+                on post.user_id = user.user_id
+                where post_type = ? and post_id = ?`,
+                ["자유",postId], 
+                async (error, userData) => {
+                if(error){
+                    // console.log("user Error",error)
+                    reject(new Error())
+                }
+                resolve(userData)
+            })
+        })
+    }
+
+    // Comment Info
+    let commentInfo = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from comment 
+                where post_id = ?`,
+                [postId], 
+                async (error, commentData) => {
+                if(error){
+                    // console.log("comment Error",error)
+                    reject(new Error())
+                }
+                resolve(commentData)
+            })
+        })
+    }
+
+    Promise.all([userInfo(),commentInfo()])
+    .then(results=>{
+        console.log("promise All results", results)
+        console.log("userInfo", results[0])
+        console.log("commentInfo",results[1])
+        let userInfo = results[0][0] // 객체 형태로 전달
+        let commentInfo = results[1] // 배열 형태로 전달
+        return res.render('post_single.ejs',{userInfo,commentInfo})
     })
+    .catch(err=>console.log(err))
 })
 
 

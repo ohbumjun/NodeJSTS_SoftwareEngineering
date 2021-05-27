@@ -1,8 +1,9 @@
 const express    = require('express');
 const ejs        = require('ejs')
-const cors        = require('cors')
+const cors       = require('cors')
 const app        = express();
 const path       = require("path");
+const moment     = require('moment') 
 require("dotenv").config();
 const bodyParser = require('body-parser')
 
@@ -22,6 +23,12 @@ app.all('/*', function(req, res, next) {
   next();
 });
 
+// middleware - moment ( data formatting )
+app.use((req, res, next)=>{
+  res.locals.moment = moment;
+  next();
+});
+
 // static files
 app.use(express.static('public'))
 app.use('/css',express.static(__dirname+'public/css'))
@@ -29,8 +36,7 @@ app.use('/js',express.static(__dirname+'public/js'))
 app.use('/img',express.static(__dirname+'public/img'))
 app.use('/vendor',express.static(__dirname+'public/vendor'))
 
-// Cookie Parser : 요청된 쿠키를 쉽게 추출할 수 있도록 해주는 미들웨어  > express-session을 쓸 때는 필요 없다 
-// app.use(cookieParser())
+// view ejs setting 
 app.set('view engine','ejs');
 app.set('views', path.join(__dirname,'./views'))
 app.engine('html', require('ejs').renderFile);
