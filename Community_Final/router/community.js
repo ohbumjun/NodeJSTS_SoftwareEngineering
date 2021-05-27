@@ -16,8 +16,6 @@ router.get('/', function(req,res){
             return res.render('index.ejs')
         }
         review_post = result
-        console.log("-----------------------")
-        console.log("후기 게시판",review_post)
         var prepare_name = '준비'
         connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 3)displayprepare ',prepare_name, async (error, result) => {
             if(error){
@@ -29,8 +27,6 @@ router.get('/', function(req,res){
                 return res.render('index.ejs')
             }
             prepare_post =result
-            console.log("-----------------------")
-            console.log("후기 게시판",prepare_post)
             var free_name = '자유'
             connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 3)displayreview ',free_name, async (error, result) => {
                 if(error){
@@ -42,8 +38,6 @@ router.get('/', function(req,res){
                     return res.render('index.ejs')
                 }
                 free_post = result
-                console.log("-----------------------")
-                console.log("자유 게시판",result)
                 return res.render('index.ejs',{review:review_post,prepare:prepare_post,free:free_post})
             })
         })
@@ -62,8 +56,6 @@ router.get('/feedbackboard', function(req,res){
             // return res.render(`index.ejs`,{ data : [] });
             return res.render('index.ejs')
         }
-        console.log("후기 게시판의 데이터들은?")
-        console.log(result)
         return res.render('feedbackboard.ejs',{review:result})
     })
 })
@@ -282,9 +274,9 @@ router.post('/reportComment',(req,res)=>{
 router.post('/reportPost',(req,res)=>{
     const {boardType,postId} = req.body
     connection.db.query(`
-    update post 
-    set report_type = 1
-    where post_id= ?`,
+        update post 
+        set report_type = 1
+        where post_id= ?`,
     [postId],
     (err, result) => {
         if(err){
@@ -295,22 +287,9 @@ router.post('/reportPost',(req,res)=>{
     })
 })
 
-// 마이페이지 프로그램 삭제
-router.post('/myprogDelete', function(req,res){
-    const ProgNum = req.body.Prog_Num
-    const UserId  = req.user.Id
-    connection.db_rest.query(`DELETE FROM projectparticipate
-        WHERE 
-        Client_Id = ? and
-        Prog_Num = ? `,
-        [UserId, ProgNum],
-        (err, result) => {
-            if(err){
-                console.log(err)
-                return res.status(404).json({ message : "failed"})
-            }
-            return res.status(200).json({ message : "success"})
-    })
+// 댓글 작성 
+router.post('/writeComment',(req,res)=>{
+    console.log("comment :", req.body.comment)
 })
 
 

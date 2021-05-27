@@ -69,7 +69,6 @@ const postClickHandler = (e) => {
         const url = window.location.href.split('/');
         const boardType = url[url.length - 1];
         const postId = e.target.getAttribute('data-id');
-        console.log("postId", postId);
         fetch(`/community/reportPost`, {
             method: 'POST',
             headers: {
