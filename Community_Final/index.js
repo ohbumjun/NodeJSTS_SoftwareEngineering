@@ -50,8 +50,8 @@ const mypage = require('./router/mypage')
 app.use('/community/', mypage)
 
 // Industrial 
-// const Industrial = require('./router/industrial')
-// app.use('/industrial/', Industrial)
+const Industrial = require('./router/industrial')
+app.use('/industrial/', Industrial)
 
 const server = app.listen(8001,function(){
   console.log("Server has started on port 8001");

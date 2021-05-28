@@ -5,43 +5,66 @@ const connection = require('../db/db.js');
 
 // 메인 페이지 
 router.get('/', function(req,res){
-    var review_name = '후기'
-    connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 3) displayreview ',review_name, async (error, result) => {
-        if(error){
-            console.log(error)
-        }
-        // 해당 값이 없다면 :
-        if( !result ){
-            // return res.render(`index.ejs`,{ data : [] });
-            return res.render('index.ejs')
-        }
-        review_post = result
-        var prepare_name = '준비'
-        connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 3)displayprepare ',prepare_name, async (error, result) => {
-            if(error){
-                console.log(error);
-            }
-            // 해당 값이 없다면 :
-            if( !result ){
-                // return res.render(`index.ejs`,{ data : [] });
-                return res.render('index.ejs')
-            }
-            prepare_post =result
-            var free_name = '자유'
-            connection.db.query( 'select * from (select * from post where post_type = ? ORDER BY views DESC LIMIT 3)displayreview ',free_name, async (error, result) => {
+    // 후기 게시판 
+    let feedbackBoard = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+            select * from 
+                (select * from post where post_type = ? 
+                    ORDER BY views DESC LIMIT 3) displayreview `,
+            "후기", async (error, result) => {
                 if(error){
-                    console.log(error);
+                    console.log("user Error",error)
+                    reject(new Error())
                 }
-                // 해당 값이 없다면 :
-                if( !result ){
-                    // return res.render(`index.ejs`,{ data : [] });
-                    return res.render('index.ejs')
-                }
-                free_post = result
-                return res.render('index.ejs',{review:review_post,prepare:prepare_post,free:free_post})
+                resolve(result)
             })
         })
+    }
+
+    // 준비 게시판 
+    let prepareBoard = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `select * from 
+                (select * from post where post_type = ? 
+                    ORDER BY views DESC LIMIT 3)displayprepare`,
+                    "준비", async (error, result) => {
+                if(error){
+                    console.log("comment Error",error)
+                    reject(new Error())
+                }
+                resolve(result)
+            })
+        })
+    }
+
+    // 자유 게시판 
+    let freeBoard = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from 
+                    (select * from post where post_type = ? 
+                        ORDER BY views DESC LIMIT 3)displayreview`,
+                        "자유", async (error, result) => {
+                if(error){
+                    console.log("comment Error",error)
+                    reject(new Error())
+                }
+                resolve(result)
+            })
+        })
+    }
+
+    Promise.all([feedbackBoard(),prepareBoard(),freeBoard()])
+    .then(results=>{
+        console.log("results from db", results)
+        let review_post = results[0] 
+        let prepare_post  = results[1] 
+        let free_post  = results[2] 
+        return res.render('index.ejs',{review:review_post,prepare:prepare_post,free:free_post})
     })
+    .catch(err=>{return res.render('index.ejs',{review:[],prepare:[],free:[]})})
+    
 })
 
 // 후기 게시판
