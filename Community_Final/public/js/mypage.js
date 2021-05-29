@@ -1,39 +1,36 @@
-import { reportUser } from "./classes/index.js";
-const reportComments = class extends reportUser {
-    constructor(divClassName, targetClassName) {
-        // constructor(){
-        super();
-        if (this.inputError(divClassName))
-            throw 'Error';
-        if (this.inputError(targetClassName))
-            throw 'Error';
-        this.contentsDiv = document.querySelector(`.${divClassName}`);
-        this.targetClassName = targetClassName;
-        // super(commentId,className)
-    }
-    report() {
-        return;
-    }
-    clickHandler(e) {
-        if (e.target.classList.contains(this.targetClassName))
-            this.executeClickHandler();
-    }
-    connectClickHandler(className) {
-        this.contentsDiv.addEventListener('click', this.clickHandler);
-    }
-    executeClickHandler() { throw 'override'; }
+"use strict";
+// edit-open : hidden or not
+// const mypagePostProcessor = class extends PostProcessor {}
+const mypagePostProcessor = class {
 };
-const reportPosts = class extends reportUser {
-    constructor() {
-        super();
-    }
-    connectClickHandler(className) {
-        return;
-    }
-    executeClickHandler() {
-        return;
+let mypageDomElems = {
+    'post': {
+        totalDiv: document.querySelectorAll('[data-post]'),
+    },
+    'comment': {
+        totalDiv: document.querySelectorAll('[data-comment]'),
     }
 };
+const getHtmlElement = (className, domElem) => domElem.querySelector(`.${className}`);
+const createClickHandler = (type) => (e) => {
+    let editContents = getHtmlElement(`${type}-edit-open`, e.currentTarget);
+    let editBtns = getHtmlElement(`${type}-edit-buttons`, e.currentTarget);
+    if (e.target.id == `${type}-edit`) { // 수정 button
+        editContents.hidden = false;
+        editBtns.hidden = true;
+    }
+    if (e.target.id == `${type}-cancel`) { // 취소 button
+        editContents.hidden = true;
+        editBtns.hidden = false;
+    }
+};
+const mypageClickHandlers = {
+    postClickHandler: createClickHandler('post'),
+    commentClickHandler: createClickHandler('comment')
+};
+mypageDomElems['post'].totalDiv.forEach(elem => elem.addEventListener('click', mypageClickHandlers.postClickHandler));
+mypageDomElems['comment'].totalDiv.forEach(elem => elem.addEventListener('click', mypageClickHandlers.commentClickHandler));
+let mypageCommentDiv = document.querySelector('.mypage-comment-div');
 let commentsDiv = document.querySelector('.blog-comments');
 const commentClickHandler = (e) => {
     if (e.target.id == 'alertIcon') {
