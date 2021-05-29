@@ -106,67 +106,18 @@
     <!-- ======= Services Section ======= -->
     <section id="services" class="services">
       <div class="container">
-
-        <div class="row">
-          <h3>게시글</h3>
-          <div></div>
-          <% mypage_post.forEach((data) => { %>
-            <div class="col-lg-4 col-md-6" data-post ="mypage-post-div" >
-              <div class="icon-box" data-aos="fade-up">
-                <div class="icon"><i class="bi bi-briefcase"></i></div>
-                <h4 class="title"><a href=""><%= data.title %></a></h4>
-                <p class="post-id" hidden> <%= data.post_id %> </p>
-                <p class="post-description"> <%= data.content %> </p>
-                <div class = "post-edit-open" hidden>
-                  <div><textarea class = "post-edit-input"></textarea></div>
-                  <div class = "post-edit-contents" >
-                    <button id = "post-insert" >입력</button>
-                    <button id = "post-cancel" >취소</button>
-                  </div>
-                </div>
-                <div class = "post-edit-buttons">
-                  <button id = "post-delete">삭제</button>
-                  <button id = "post-edit">수정</button>
-                </div>
-              </div>
-            </div>
-          <%}) %>
-        </div>
-        <div class = "row">
-          <h3>댓글</h3>
-          <% mypageComment.forEach((data) => { %>
-            <div class="col-lg-4 col-md-6" data-comment ="mypage-comment-div">
-              <div class="icon-box" data-aos="fade-up">
-                <div class="icon"><i class="bi bi-briefcase"></i></div>
-                <h4 class="title"><a href="">댓글</a></h4>
-                <p class="comment-id" hidden> <%= data.comment_id %> </p>
-                <p class="comment-description"><%= data.content %></p>
-                <div class = "comment-edit-open" hidden>
-                  <div><textarea class = "comment-edit-input"></textarea></div>
-                  <div class = "comment-edit-contents" >
-                    <button id = "comment-insert" >입력</button>
-                    <button id = "comment-cancel" >취소</button>
-                  </div>
-                </div>
-                <div class = "comment-edit-buttons">
-                  <button id = "comment-delete">삭제</button>
-                  <button id = "comment-edit">수정</button>
-                </div>
-              </div>
-            </div>
-          <%}) %>
-        </div>
         <div class = "row" >
           <h3>게시글 작성</h3>
           <div class="col-lg-4 col-md-6">
             <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-              <div class="icon"><i class="bi bi-binoculars"></i></div>
-              <h4 class="title"><a href="">Magni Dolores</a></h4>
-              <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+              <h4 class="title"><a href="">작성</a></h4>
+              <form action="/community/createPost" method = "post">
+                <textarea name="post" class="form-control" placeholder="Your Post"></textarea>
+                <button type="submit" class="btn btn-primary">create post</button>
+              </form>
             </div>
           </div>
         </div>
-
       </div>
     </section><!-- End Services Section -->
   </main><!-- End #main -->

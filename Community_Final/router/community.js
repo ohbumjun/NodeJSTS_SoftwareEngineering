@@ -310,9 +310,53 @@ router.post('/reportPost',(req,res)=>{
     })
 })
 
+// 게시글 작성 페이지
+router.get('/createPost',(req,res)=>{
+    return res.render('createpost.ejs')
+})
+
+// 게시글 작성 
+router.post('/createPost',(req,res)=>{
+    const {post} = req.body
+    //  INSERT INTO post VALUES(post_id, title, content, date, views, post_type, user_id, report_type);
+    const postType = ["후기","준비","자유"]
+    const randomIdx = Math.floor(Math.random()*postType.length)
+    
+    const query = `INSERT INTO post ( title,content,date,views,post_type,user_id)
+                    VALUES (?,?,?,?,?,?) `
+    const values = [`${postType[randomIdx]} 게시글`,post,new Date(),0,postType[randomIdx],1]
+    
+    // insert 하기
+    connection.db.query( query,values,(error, result) => {
+        if(error){
+            return res.status(400).json({message : 'failed'})
+        }else{
+            return res.redirect('/community')
+        }
+    })
+
+})
+
 // 댓글 작성 
 router.post('/writeComment',(req,res)=>{
-    console.log("comment :", req.body.comment)
+    const {comment} = req.body
+    //  INSERT INTO post VALUES(post_id, title, content, date, views, post_type, user_id, report_type);
+    const postType = ["후기","준비","자유"]
+    const randomIdx = Math.floor(Math.random()*postType.length)
+    connection.db.query(`INSERT INTO post values(
+        comment_id ,
+        post_id,
+        posted_date : new Date(),
+        user_id : 1,
+        report_type,
+        content : comment,
+    ` , (err, result ) => {
+        if(err){
+            console.log(err)
+            return res.status(404).json({message:'failure'})
+        }
+        return res.status(200).json({message:'success'})
+    })
 })
 
 
