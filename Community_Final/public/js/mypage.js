@@ -1,15 +1,10 @@
 "use strict";
 // edit-open : hidden or not
-<<<<<<< HEAD
-=======
-// 
->>>>>>> cccc3a1a139a30affeccf2b38d0a4b8aca262fb6
 // const mypagePostProcessor = class extends PostProcessor {}
 const mypagePostProcessor = class {
 };
 let mypageDomElems = {
     'post': {
-<<<<<<< HEAD
         totalDiv: document.querySelectorAll('[data-post]'),
     },
     'comment': {
@@ -17,16 +12,27 @@ let mypageDomElems = {
     }
 };
 const getHtmlElement = (className, domElem) => domElem.querySelector(`.${className}`);
+const ctrlEditDisplayHtml = (y_edit_Html, n_edit_Html) => {
+    y_edit_Html.hidden = !y_edit_Html.hidden;
+    n_edit_Html.hidden = !n_edit_Html.hidden;
+};
 const createClickHandler = (type) => (e) => {
-    let editContents = getHtmlElement(`${type}-edit-open`, e.currentTarget);
-    let editBtns = getHtmlElement(`${type}-edit-buttons`, e.currentTarget);
-    if (e.target.id == `${type}-edit`) { // 수정 button
-        editContents.hidden = false;
-        editBtns.hidden = true;
+    let editContentsDiv = getHtmlElement(`${type}-edit-open`, e.currentTarget);
+    let editBtnsDiv = getHtmlElement(`${type}-edit-buttons`, e.currentTarget);
+    let content = getHtmlElement(`${type}-description`, e.currentTarget);
+    let editContent = getHtmlElement(`${type}-edit-input`, e.currentTarget);
+    let contentId;
+    if (e.target.id == `${type}-edit` || e.target.id == `${type}-cancel`) { // 수정 button
+        // edit content에 내용 넣기 
+        if (editContent)
+            editContent.value = content.innerText;
+        ctrlEditDisplayHtml(editContentsDiv, editBtnsDiv);
     }
-    if (e.target.id == `${type}-cancel`) { // 취소 button
-        editContents.hidden = true;
-        editBtns.hidden = false;
+    // post
+    if (e.target.id == `${type}-insert`) {
+        contentId = Number(getHtmlElement(`${type}-id`, e.currentTarget).innerText);
+        if (editContent)
+            editFetch(editContent.value, contentId, type);
     }
 };
 const mypageClickHandlers = {
@@ -35,65 +41,27 @@ const mypageClickHandlers = {
 };
 mypageDomElems['post'].totalDiv.forEach(elem => elem.addEventListener('click', mypageClickHandlers.postClickHandler));
 mypageDomElems['comment'].totalDiv.forEach(elem => elem.addEventListener('click', mypageClickHandlers.commentClickHandler));
-=======
-        postDiv: document.querySelector('#mypage-post-div'),
-        editContentsDiv: document.querySelector('.edit-open'),
-        insertBtn: document.querySelector('#post-insert'),
-        cancelBtn: document.querySelector('#post-cancel'),
-        editBtnDiv: document.querySelector('.edit-buttons'),
-        deleteBtn: document.querySelector('#post-delete'),
-        editBtn: document.querySelector('#post-edit'),
-    },
-    'comment': {
-        mypageCommentDiv: document.querySelector('#mypage-comment-div'),
-    }
-};
-const mypagePostClickHandler = (e) => {
-    console.log("click");
-    if (e.target.id == 'post-edit') { // 수정 button
-        // edit-button div 숨기기
-        mypageDomElems['post'].editBtnDiv.hidden = true;
-        // edit-content 내용 보이게 하기
-        mypageDomElems['post'].editContentsDiv.hidden = false;
-    }
-    if (e.target.id == 'post-cancel') { // 취소 button
-        // edit-button div 숨기기
-        mypageDomElems['post'].editBtnDiv.hidden = false;
-        // edit-content 내용 보이게 하기
-        mypageDomElems['post'].editContentsDiv.hidden = true;
-    }
-};
-mypageDomElems['post'].postDiv.addEventListener('click', mypagePostClickHandler);
->>>>>>> cccc3a1a139a30affeccf2b38d0a4b8aca262fb6
-let mypageCommentDiv = document.querySelector('.mypage-comment-div');
-let commentsDiv = document.querySelector('.blog-comments');
-const commentClickHandler = (e) => {
-    if (e.target.id == 'alertIcon') {
-        const url = window.location.href.split('/');
-        const boardType = url[url.length - 3];
-        const commentId = e.target.getAttribute('data-id');
-        fetch(`/community/reportComment`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                boardType,
-                commentId
-            })
+const editFetch = (content, contentId, type) => {
+    fetch(`/community/edit${type}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            content, contentId
         })
-            .then(res => res.json())
-            .then(res => {
-            if (res.message == 'failed') {
-                alert("Error");
-            }
-            else {
-                alert("해당 댓글을 신고했습니다");
-            }
-        });
-    }
+    })
+        .then(res => res.json())
+        .then(res => {
+        if (res.message == 'failed') {
+            alert("Error");
+        }
+        else {
+            window.location.reload();
+        }
+    });
 };
-commentsDiv === null || commentsDiv === void 0 ? void 0 : commentsDiv.addEventListener('click', commentClickHandler);
+let mypageCommentDiv = document.querySelector('.mypage-comment-div');
 // 게시글 신고
 let postsDiv = document.querySelector(`[data-class="singlePosts"]`);
 const postClickHandler = (e) => {

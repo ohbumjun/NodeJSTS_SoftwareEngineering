@@ -35,4 +35,41 @@ router.get('/mypage',function (req,res){
     })
 })
 
+// 게시글 수정  
+router.post('/editpost',(req,res)=>{
+    console.log("req",req.body)
+    const {content,contentId} = req.body
+    console.log("content,contentId",content,contentId)
+    connection.db.query(`
+    update post 
+    set content = ?
+    where post_id= ?`,
+    [content,contentId],
+    (err, result) => {
+        if(err){
+            console.log(err)
+            return res.status(404).json({message:'failure'})
+        }
+        return res.status(200).json({message:'success'})
+    })
+})
+
+// 댓글 수정  
+router.post('/editomment',(req,res)=>{
+    console.log("req",req.body)
+    const {boardType,commentId} = req.body
+    connection.db.query(`
+    update comment 
+    set report_type = 1
+    where comment_id= ?`,
+    [commentId],
+    (err, result) => {
+        if(err){
+            console.log(err)
+            return res.status(404).json({message:'failure'})
+        }
+        return res.status(200).json({message:'success'})
+    })
+})
+
 module.exports = router;
