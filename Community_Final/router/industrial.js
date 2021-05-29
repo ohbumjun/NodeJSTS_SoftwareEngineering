@@ -30,7 +30,7 @@ router.get('/industrial',(req,res)=>{
             console.log("-----------------------")
             console.log("해당 산업체 방문에 대한 리뷰",result)
             review_comments = result
-            return res.render('mypage.ejs',{industry:post,industry_review:review_comments})
+            return res.render('industrial.ejs',{industry:post,industry_review:review_comments})
         })
     })
 })

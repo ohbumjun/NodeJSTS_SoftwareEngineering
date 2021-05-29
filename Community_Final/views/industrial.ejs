@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Services - 커뮤니티 페이지 Bootstrap Template</title>
+  <title>게시물 - 커뮤니티 페이지 Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -66,17 +66,37 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="/community">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a class="active" href="services.html">Services</a></li>
-          <li><a href="/community/feedbackboard">feedbackboard</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="portfolio.html">Portfolio</a></li>
-          <li><a href="blog.html">Blog</a></li>
+          <li><a class="active" href="/community">Home</a></li>
+          <!-- <li><a href="about.html">About</a></li> -->
+          <!-- <li><a href="services.html">Services</a></li> -->
+          <li><a href="/community/feedbackboard">후기 게시판</a></li>
+          <li><a href="/community/freeboard">자유 게시판</a></li>
+          <li><a href="/community/prepareboard">준비 게시판</a></li>
+          <!-- <li><a href="pricing.html">Pricing</a></li> -->
+          <!-- <li><a href="portfolio.html">Portfolio</a></li> -->
+          <!-- <li><a href="blog.html">Blog</a></li> -->
+          <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Deep Drop Down 1</a></li>
+                  <li><a href="#">Deep Drop Down 2</a></li>
+                  <li><a href="#">Deep Drop Down 3</a></li>
+                  <li><a href="#">Deep Drop Down 4</a></li>
+                  <li><a href="#">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down 2</a></li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+            </ul>
+          </li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+      </nav>
+      <!-- .navbar -->
 
     </div>
   </header><!-- End Header -->
@@ -88,68 +108,157 @@
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Services</h2>
+          <h2>게시물</h2>
           <ol>
             <li><a href="/community">Home</a></li>
-            <li>Services</li>
+            <li>게시물</li>
           </ol>
         </div>
 
       </div>
     </section><!-- End Breadcrumbs -->
 
-    <!-- mypage_post:[],mypageComment:[] -->
-
-    <!-- ======= Services Section ======= -->
-    <section id="services" class="services">
-      <div class="container">
+    <!-- ======= 게시물 Section ======= -->
+    <section id="blog" class="blog">
+      <div class="container" data-aos="fade-up">
 
         <div class="row">
-          <% mypage_post.forEach((data) => { %>
-            <div class="col-lg-4 col-md-6">
-              <div class="icon-box" data-aos="fade-up">
-                <div class="icon"><i class="bi bi-briefcase"></i></div>
-                <h4 class="title"><a href=""><%= data.title %></a></h4>
-                <p class="description"> <%= data.content %> </p>
-              </div>
-            </div>
-          <%}) %>
-          <% mypageComment.forEach((data) => { %>
-            <div class="col-lg-4 col-md-6">
-              <div class="icon-box" data-aos="fade-up">
-                <div class="icon"><i class="bi bi-briefcase"></i></div>
-                <h4 class="title"><a href="">댓글</a></h4>
-                <p class="description"><%= data.content %></p>
-              </div>
-            </div>
-          <%}) %>
 
-        <!-- <div class = "row">
-          <div class="col-lg-4 col-md-6">
-            <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-              <div class="icon"><i class="bi bi-binoculars"></i></div>
-              <h4 class="title"><a href="">Magni Dolores</a></h4>
-              <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-              <div class="icon"><i class="bi bi-brightness-high"></i></div>
-              <h4 class="title"><a href="">Nemo Enim</a></h4>
-              <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-              <div class="icon"><i class="bi bi-calendar4-week"></i></div>
-              <h4 class="title"><a href="">Eiusmod Tempor</a></h4>
-              <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
-            </div>
-          </div>
-        </div> -->
+          <div class="col-lg-8 entries">
+
+            <article class="entry entry-single">
+
+              <div class="entry-img">
+                <img src="/img/blog/blog-1.jpg" alt="" class="img-fluid">
+              </div>
+
+              <h2 class="entry-title">
+                <a href="blog-single.html"> <%= userInfo.title %> </a>
+              </h2>
+
+              <div class="entry-meta">
+                <ul>
+                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html"><%= userInfo.user_name %></a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01"><%= moment(userInfo.date).format('Do MMM, YYYY') %></time></a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-single.html"><%= userInfo.views %> Views</a></li>
+                </ul>
+              </div>
+
+              <div class="entry-content">
+                <p>
+                  <%= userInfo.content %>
+                </p>
+
+                <blockquote>
+                  <p>
+                    <%= userInfo.content %>
+                  </p>
+                </blockquote>
+
+                <p>
+                  <%= userInfo.content %>  
+                </p>
+                
+
+              </div>
+
+              <div class="entry-footer">
+                <i class="bi bi-folder"></i>
+                <ul class="cats">
+                  <li><a href="#"><%= userInfo.univ %></a></li>
+                  <li><a href="#"><%= userInfo.major %></a></li>
+                </ul>
+
+                <i class="bi bi-tags"></i>
+                <!-- <ul class="tags">
+                  <li><a href="#">Creative</a></li>
+                  <li><a href="#">Tips</a></li>
+                  <li><a href="#">Marketing</a></li>
+                </ul> -->
+              </div>
+
+            </article><!-- End blog entry -->
+
+            <div class="blog-author d-flex align-items-center">
+              <img src="/img/blog/blog-author.jpg" class="rounded-circle float-left" alt="">
+              <div>
+                <h4><%= userInfo.user_name %></h4>
+                <div class="social-links">
+                  <a href="https://twitters.com/#"><i class="bi bi-twitter"></i></a>
+                  <a href="https://facebook.com/#"><i class="bi bi-facebook"></i></a>
+                  <a href="https://instagram.com/#"><i class="biu bi-instagram"></i></a>
+                </div>
+                
+              </div>
+            </div><!-- End blog author bio -->
+
+            <div class="blog-comments">
+
+              <h4 class="comments-count"><%= commentInfo.length %>  Comments</h4>
+
+              <% commentInfo.forEach((comment) => { %>
+                <div id="comment-1" class="comment">
+                  <div class="d-flex">
+                    <div class="comment-img"><img src="/img/blog/comments-1.jpg" alt=""></div>
+                    <div>
+                      <h5>
+                        <span><%= comment.user_name %></span>
+                        <i id="alertIcon" data-id="<%= comment.comment_id %>" class="bi bi-exclamation-octagon"></i>
+                        <span>신고</span>
+                      </h5>
+                      <p>
+                        <%= comment.content %>  
+                      </p>
+                      <p>
+                        <time datetime="2020-01-01"><%= moment(comment.posted_date).format('Do MMM, YYYY') %></time>
+                        <%= comment.univ %> <%= comment.major %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              <%}) %>
+
+              <!-- 
+              <div id="comment-1" class="comment">
+                <div class="d-flex">
+                  <div class="comment-img"><img src="/img/blog/comments-1.jpg" alt=""></div>
+                  <div>
+                    <h5><a href="">Georgia Reader</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
+                    <time datetime="2020-01-01">01 Jan, 2020</time>
+                    <p>
+                      Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad aut sapiente quis molestiae est qui cum soluta.
+                      Vero aut rerum vel. Rerum quos laboriosam placeat ex qui. Sint qui facilis et.
+                    </p>
+                  </div>
+                </div>
+              </div> 
+            -->
+              <!-- End comment #1 -->
+
+              <div class="reply-form">
+                <h4>Leave a Reply</h4>
+                <p>Your email address will not be published. Required fields are marked * </p>
+                <form action="/community/writeComment" method = "post">
+                  <div class="row">
+                    <div class="col form-group">
+                      <textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Post Comment</button>
+
+                </form>
+
+              </div>
+
+            </div><!-- End blog comments -->
+
+          </div><!-- End blog entries list -->
+
+        </div>
 
       </div>
-    </section><!-- End Services Section -->
+    </section><!-- End 게시물 Section -->
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -241,6 +350,7 @@
 
   <!-- Template Main JS File -->
   <script src="/js/main.js"></script>
+  <script type = "module" src="/js/community.js"></script>
 
 </body>
 
