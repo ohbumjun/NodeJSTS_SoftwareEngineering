@@ -1,39 +1,40 @@
-import { reportUser } from "./classes/index.js";
-const reportComments = class extends reportUser {
-    constructor(divClassName, targetClassName) {
-        // constructor(){
-        super();
-        if (this.inputError(divClassName))
-            throw 'Error';
-        if (this.inputError(targetClassName))
-            throw 'Error';
-        this.contentsDiv = document.querySelector(`.${divClassName}`);
-        this.targetClassName = targetClassName;
-        // super(commentId,className)
-    }
-    report() {
-        return;
-    }
-    clickHandler(e) {
-        if (e.target.classList.contains(this.targetClassName))
-            this.executeClickHandler();
-    }
-    connectClickHandler(className) {
-        this.contentsDiv.addEventListener('click', this.clickHandler);
-    }
-    executeClickHandler() { throw 'override'; }
+"use strict";
+// edit-open : hidden or not
+// 
+// const mypagePostProcessor = class extends PostProcessor {}
+const mypagePostProcessor = class {
 };
-const reportPosts = class extends reportUser {
-    constructor() {
-        super();
-    }
-    connectClickHandler(className) {
-        return;
-    }
-    executeClickHandler() {
-        return;
+let mypageDomElems = {
+    'post': {
+        postDiv: document.querySelector('#mypage-post-div'),
+        editContentsDiv: document.querySelector('.edit-open'),
+        insertBtn: document.querySelector('#post-insert'),
+        cancelBtn: document.querySelector('#post-cancel'),
+        editBtnDiv: document.querySelector('.edit-buttons'),
+        deleteBtn: document.querySelector('#post-delete'),
+        editBtn: document.querySelector('#post-edit'),
+    },
+    'comment': {
+        mypageCommentDiv: document.querySelector('#mypage-comment-div'),
     }
 };
+const mypagePostClickHandler = (e) => {
+    console.log("click");
+    if (e.target.id == 'post-edit') { // 수정 button
+        // edit-button div 숨기기
+        mypageDomElems['post'].editBtnDiv.hidden = true;
+        // edit-content 내용 보이게 하기
+        mypageDomElems['post'].editContentsDiv.hidden = false;
+    }
+    if (e.target.id == 'post-cancel') { // 취소 button
+        // edit-button div 숨기기
+        mypageDomElems['post'].editBtnDiv.hidden = false;
+        // edit-content 내용 보이게 하기
+        mypageDomElems['post'].editContentsDiv.hidden = true;
+    }
+};
+mypageDomElems['post'].postDiv.addEventListener('click', mypagePostClickHandler);
+let mypageCommentDiv = document.querySelector('.mypage-comment-div');
 let commentsDiv = document.querySelector('.blog-comments');
 const commentClickHandler = (e) => {
     if (e.target.id == 'alertIcon') {
