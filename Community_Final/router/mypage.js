@@ -54,15 +54,29 @@ router.post('/editpost',(req,res)=>{
     })
 })
 
-// 댓글 수정  
-router.post('/editcomment',(req,res)=>{
-    console.log("req",req.body)
-    const {content,contentId} = req.body
+// 게시글 삭제  
+router.post('/deletepost',(req,res)=>{
+    const {contentId} = req.body
     connection.db.query(`
-    update comment 
-    set content = ?
+    delete from post 
+    where post_id = ?`,
+    [contentId],
+    (err, result) => {
+        if(err){
+            console.log(err)
+            return res.status(404).json({message:'failure'})
+        }
+        return res.status(200).json({message:'success'})
+    })
+})
+
+// 댓글 삭제  
+router.post('/deletecomment',(req,res)=>{
+    const {contentId} = req.body
+    connection.db.query(`
+    delete from comment 
     where comment_id = ?`,
-    [content,contentId],
+    [contentId],
     (err, result) => {
         if(err){
             console.log(err)

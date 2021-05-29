@@ -23,26 +23,26 @@ const createClickHandler=(type:string)=>(e:any)=>{
     let content         = getHtmlElement(`${type}-description`,e.currentTarget) as HTMLParagraphElement
     let editContent     = getHtmlElement(`${type}-edit-input`,e.currentTarget) as HTMLTextAreaElement
     let contentId ;
+
+    // display change
     if(e.target.id == `${type}-edit` || e.target.id == `${type}-cancel`){ // 수정 button
         // edit content에 내용 넣기 
         if(editContent && content) editContent.value = content.innerText
         ctrlEditDisplayHtml(editContentsDiv!,editBtnsDiv!)
     }
-    // post
+    // edit
     if(e.target.id==`${type}-insert`){
-        console.log("click")
         contentId = getHtmlElement(`${type}-id`,e.currentTarget)
-        console.log("contentId",contentId)
         if(!contentId) throw `No ${type} Id`
         if(editContent && contentId) editFetch(editContent.value,Number(contentId.innerText),type)
     }
+    // delete
+    if(e.target.id==`${type}-delete`){
+        contentId = getHtmlElement(`${type}-id`,e.currentTarget)
+        if(!contentId) throw `No ${type} Id`
+        deleteFetch(Number(contentId!.innerText),type)
+    }
 }
-const mypageClickHandlers = {
-    postClickHandler    : createClickHandler('post'),
-    commentClickHandler : createClickHandler('comment')
-}
-mypageDomElems['post'].totalDiv.forEach(elem=>elem.addEventListener('click',mypageClickHandlers.postClickHandler))
-mypageDomElems['comment'].totalDiv.forEach(elem=>elem.addEventListener('click',mypageClickHandlers.commentClickHandler))
 const editFetch=(content:string,contentId:number,type:string)=>{
     console.log("hello")
     fetch(`/community/edit${type}`,
@@ -61,34 +61,28 @@ const editFetch=(content:string,contentId:number,type:string)=>{
             else{window.location.reload()}
         })
 }
-let mypageCommentDiv = document.querySelector('.mypage-comment-div')
-
-
-
-// 게시글 신고
-let postsDiv = document.querySelector(`[data-class="singlePosts"]`)
-const postClickHandler=(e:any)=>{
-    if(e.target.id == 'alertIcon'){
-        const url = window.location.href.split('/')
-        const boardType = url[url.length-1]
-        const postId = e.target.getAttribute('data-id')
-        console.log("postId",postId)
-        fetch(`/community/reportPost`,
+const deleteFetch=(contentId:number,type:string)=>{
+    console.log("contentId, type",contentId,type)
+    fetch(`/community/delete${type}`,
         {
             method : 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                boardType,
-                postId
+                contentId
             })
         })
         .then(res => res.json())
         .then(res=>{
             if(res.message=='failed'){alert("Error")}
-            else{alert("해당 게시글을 신고했습니다")}
+            else{window.location.reload()} // 
         })
-    }
 }
-postsDiv?.addEventListener('click',postClickHandler)
+const mypageClickHandlers = {
+    postClickHandler    : createClickHandler('post'),
+    commentClickHandler : createClickHandler('comment')
+}
+mypageDomElems['post'].totalDiv.forEach(elem=>elem.addEventListener('click',mypageClickHandlers.postClickHandler))
+mypageDomElems['comment'].totalDiv.forEach(elem=>elem.addEventListener('click',mypageClickHandlers.commentClickHandler))
+
