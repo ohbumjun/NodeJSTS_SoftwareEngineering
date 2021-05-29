@@ -104,23 +104,38 @@
     <section id="services" class="services">
       <div class="container">
 
+<<<<<<< HEAD
         <div class="row">
           <h3>게시글</h3>
           <div></div>
+=======
+        <div class="row" id = "mypage-post-div">
+          <h3>게시글</h3>
+>>>>>>> cccc3a1a139a30affeccf2b38d0a4b8aca262fb6
           <% mypage_post.forEach((data) => { %>
             <div class="col-lg-4 col-md-6" data-post ="mypage-post-div" >
               <div class="icon-box" data-aos="fade-up">
                 <div class="icon"><i class="bi bi-briefcase"></i></div>
                 <h4 class="title"><a href=""><%= data.title %></a></h4>
                 <p class="description"> <%= data.content %> </p>
+<<<<<<< HEAD
                 <div class = "post-edit-open" hidden>
                   <div><textarea></textarea></div>
                   <div class = "post-edit-contents" >
+=======
+                <div class = "edit-open" hidden>
+                  <div><textarea></textarea></div>
+                  <div class = "edit-contents" >
+>>>>>>> cccc3a1a139a30affeccf2b38d0a4b8aca262fb6
                     <button id = "post-insert" >입력</button>
                     <button id = "post-cancel" >취소</button>
                   </div>
                 </div>
+<<<<<<< HEAD
                 <div class = "post-edit-buttons">
+=======
+                <div class = "edit-buttons">
+>>>>>>> cccc3a1a139a30affeccf2b38d0a4b8aca262fb6
                   <button id = "post-delete">삭제</button>
                   <button id = "post-edit">수정</button>
                 </div>
@@ -128,7 +143,11 @@
             </div>
           <%}) %>
         </div>
+<<<<<<< HEAD
         <div class = "row">
+=======
+        <div class = "row" id = "mypage-comment-div">
+>>>>>>> cccc3a1a139a30affeccf2b38d0a4b8aca262fb6
           <h3>댓글</h3>
           <% mypageComment.forEach((data) => { %>
             <div class="col-lg-4 col-md-6" data-comment ="mypage-comment-div">
@@ -136,6 +155,7 @@
                 <div class="icon"><i class="bi bi-briefcase"></i></div>
                 <h4 class="title"><a href="">댓글</a></h4>
                 <p class="description"><%= data.content %></p>
+<<<<<<< HEAD
                 <div class = "comment-edit-open" hidden>
                   <div><textarea></textarea></div>
                   <div class = "comment-edit-contents" >
@@ -147,6 +167,10 @@
                   <button id = "comment-delete">삭제</button>
                   <button id = "comment-edit">수정</button>
                 </div>
+=======
+                <button class = "comment-delete" >삭제</button>
+                <button class = "comment-edit">수정</button>
+>>>>>>> cccc3a1a139a30affeccf2b38d0a4b8aca262fb6
               </div>
             </div>
           <%}) %>
