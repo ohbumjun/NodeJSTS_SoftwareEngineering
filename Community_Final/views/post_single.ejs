@@ -68,7 +68,7 @@
         <ul>
           <li><a class="active" href="/community">Home</a></li>
           <li><a href="/community/mypage">Mypage</a>
-          <li><a href="/community/createBoard">Mypage</a>
+            <li><a href="/community/createPost">게시글 작성</a>
           <!-- <li><a href="about.html">About</a></li> -->
           <!-- <li><a href="services.html">Services</a></li> -->
           <li><a href="/community/feedbackboard">후기 게시판</a></li>
@@ -244,14 +244,13 @@
                   <div class="row">
                     <div class="col form-group">
                       <textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
+                      <input hidden name="post_id" class="form-control" placeholder="Your Comment*" value = "<%=userInfo.post_id%>"></input>
+                      <input hidden name="post_type" class="form-control" placeholder="Your Comment*" value = "<%=userInfo.post_type%>"></input>
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary">Post Comment</button>
-
                 </form>
-
               </div>
-
             </div><!-- End blog comments -->
 
           </div><!-- End blog entries list -->
