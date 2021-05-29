@@ -24,15 +24,19 @@ const createClickHandler = (type) => (e) => {
     let contentId;
     if (e.target.id == `${type}-edit` || e.target.id == `${type}-cancel`) { // 수정 button
         // edit content에 내용 넣기 
-        if (editContent)
+        if (editContent && content)
             editContent.value = content.innerText;
         ctrlEditDisplayHtml(editContentsDiv, editBtnsDiv);
     }
     // post
     if (e.target.id == `${type}-insert`) {
-        contentId = Number(getHtmlElement(`${type}-id`, e.currentTarget).innerText);
-        if (editContent)
-            editFetch(editContent.value, contentId, type);
+        console.log("click");
+        contentId = getHtmlElement(`${type}-id`, e.currentTarget);
+        console.log("contentId", contentId);
+        if (!contentId)
+            throw `No ${type} Id`;
+        if (editContent && contentId)
+            editFetch(editContent.value, Number(contentId.innerText), type);
     }
 };
 const mypageClickHandlers = {
@@ -42,6 +46,7 @@ const mypageClickHandlers = {
 mypageDomElems['post'].totalDiv.forEach(elem => elem.addEventListener('click', mypageClickHandlers.postClickHandler));
 mypageDomElems['comment'].totalDiv.forEach(elem => elem.addEventListener('click', mypageClickHandlers.commentClickHandler));
 const editFetch = (content, contentId, type) => {
+    console.log("hello");
     fetch(`/community/edit${type}`, {
         method: 'POST',
         headers: {

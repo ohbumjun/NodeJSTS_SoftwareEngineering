@@ -18,20 +18,23 @@ const ctrlEditDisplayHtml=(y_edit_Html:HTMLElement,n_edit_Html:HTMLElement)=>{
     y_edit_Html.hidden = !y_edit_Html.hidden; n_edit_Html.hidden = !n_edit_Html.hidden 
 }
 const createClickHandler=(type:string)=>(e:any)=>{
-    let editContentsDiv = getHtmlElement(`${type}-edit-open`,e.currentTarget)
-    let editBtnsDiv = getHtmlElement(`${type}-edit-buttons`,e.currentTarget)
-    let content = getHtmlElement(`${type}-description`,e.currentTarget)
-    let editContent = getHtmlElement(`${type}-edit-input`,e.currentTarget) as HTMLTextAreaElement
+    let editContentsDiv = getHtmlElement(`${type}-edit-open`,e.currentTarget) as HTMLDivElement
+    let editBtnsDiv     = getHtmlElement(`${type}-edit-buttons`,e.currentTarget) as HTMLDivElement
+    let content         = getHtmlElement(`${type}-description`,e.currentTarget) as HTMLParagraphElement
+    let editContent     = getHtmlElement(`${type}-edit-input`,e.currentTarget) as HTMLTextAreaElement
     let contentId ;
     if(e.target.id == `${type}-edit` || e.target.id == `${type}-cancel`){ // 수정 button
         // edit content에 내용 넣기 
-        if(editContent) editContent.value = content!.innerText
+        if(editContent && content) editContent.value = content.innerText
         ctrlEditDisplayHtml(editContentsDiv!,editBtnsDiv!)
     }
     // post
     if(e.target.id==`${type}-insert`){
-        contentId = Number(getHtmlElement(`${type}-id`,e.currentTarget)!.innerText)
-        if(editContent) editFetch(editContent.value,contentId,type)
+        console.log("click")
+        contentId = getHtmlElement(`${type}-id`,e.currentTarget)
+        console.log("contentId",contentId)
+        if(!contentId) throw `No ${type} Id`
+        if(editContent && contentId) editFetch(editContent.value,Number(contentId.innerText),type)
     }
 }
 const mypageClickHandlers = {
@@ -41,6 +44,7 @@ const mypageClickHandlers = {
 mypageDomElems['post'].totalDiv.forEach(elem=>elem.addEventListener('click',mypageClickHandlers.postClickHandler))
 mypageDomElems['comment'].totalDiv.forEach(elem=>elem.addEventListener('click',mypageClickHandlers.commentClickHandler))
 const editFetch=(content:string,contentId:number,type:string)=>{
+    console.log("hello")
     fetch(`/community/edit${type}`,
         {
             method : 'POST',

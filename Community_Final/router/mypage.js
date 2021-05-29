@@ -55,14 +55,14 @@ router.post('/editpost',(req,res)=>{
 })
 
 // 댓글 수정  
-router.post('/editomment',(req,res)=>{
+router.post('/editcomment',(req,res)=>{
     console.log("req",req.body)
-    const {boardType,commentId} = req.body
+    const {content,contentId} = req.body
     connection.db.query(`
     update comment 
-    set report_type = 1
-    where comment_id= ?`,
-    [commentId],
+    set content = ?
+    where comment_id = ?`,
+    [content,contentId],
     (err, result) => {
         if(err){
             console.log(err)

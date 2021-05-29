@@ -136,9 +136,10 @@
               <div class="icon-box" data-aos="fade-up">
                 <div class="icon"><i class="bi bi-briefcase"></i></div>
                 <h4 class="title"><a href="">댓글</a></h4>
+                <p class="comment-id" hidden> <%= data.comment_id %> </p>
                 <p class="comment-description"><%= data.content %></p>
                 <div class = "comment-edit-open" hidden>
-                  <div><textarea></textarea></div>
+                  <div><textarea class = "comment-edit-input"></textarea></div>
                   <div class = "comment-edit-contents" >
                     <button id = "comment-insert" >입력</button>
                     <button id = "comment-cancel" >취소</button>
