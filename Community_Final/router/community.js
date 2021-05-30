@@ -3,16 +3,15 @@ const router = express.Router();
 const path = require('path');
 const connection = require('../db/db.js');
 
-// 메인 페이지 
-router.get('/', function(req,res){
-    // 후기 게시판 
-    let feedbackBoard = () => {
+class DBOperator{
+    constructor(){}
+    getPostsPgDatas=(type)=>()=>{
         return new Promise((resolve,reject) =>{
             connection.db.query( `
             select * from 
                 (select * from post where post_type = ? 
                     ORDER BY views DESC LIMIT 3) displayreview `,
-            "후기", async (error, result) => {
+            type, async (error, result) => {
                 if(error){
                     console.log("user Error",error)
                     reject(new Error())
@@ -21,40 +20,62 @@ router.get('/', function(req,res){
             })
         })
     }
-
-    // 준비 게시판 
-    let prepareBoard = () => {
-        return new Promise((resolve,reject) =>{
-            connection.db.query( `select * from 
-                (select * from post where post_type = ? 
-                    ORDER BY views DESC LIMIT 3)displayprepare`,
-                    "준비", async (error, result) => {
-                if(error){
-                    console.log("comment Error",error)
-                    reject(new Error())
-                }
-                resolve(result)
-            })
+    getSgPostPgDatas=(type,postId)=>{
+        let userInfo = getUserData(type,postId)
+        let commentInfo = getCommentsData(postId)
+        Promise.all([userInfo(),commentInfo()])
+        .then(results=>{
+            let userInfo = results[0][0] // 객체 형태로 전달
+            let commentInfo = results[1] // 배열 형태로 전달
+            return res.render('post_single.ejs',{userInfo,commentInfo})
         })
+        .catch(err=>console.log(err))
     }
-
-    // 자유 게시판 
-    let freeBoard = () => {
+    getUserData=(type,postId)=>{
         return new Promise((resolve,reject) =>{
             connection.db.query( `
-                select * from 
-                    (select * from post where post_type = ? 
-                        ORDER BY views DESC LIMIT 3)displayreview`,
-                        "자유", async (error, result) => {
+                select * from post 
+                join user
+                on post.user_id = user.user_id
+                where post_type = ? and post_id = ?`,
+                ["후기",postId], 
+                async (error, userData) => {
                 if(error){
-                    console.log("comment Error",error)
+                    // console.log("user Error",error)
                     reject(new Error())
                 }
-                resolve(result)
+                resolve(userData)
             })
         })
     }
+    
+    getCommentsData=(postId)=>{
+        // Comment Info
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from comment 
+                join user
+                on comment.user_id = user.user_id
+                where post_id = ?`,
+                [postId], 
+                async (error, commentData) => {
+                if(error){
+                    // console.log("comment Error",error)
+                    reject(new Error())
+                }
+                resolve(commentData)
+            })
+        })
+    }
+}
+const DBOperInst = new DBOperator()
 
+// 메인 페이지 
+router.get('/', function(req,res){
+    // 후기 게시판 
+    let freeBoard = DBOperInst.getPostsPgDatas("자유")
+    let feedbackBoard = DBOperInst.getPostsPgDatas("후기")
+    let prepareBoard = DBOperInst.getPostsPgDatas("준비")
     Promise.all([feedbackBoard(),prepareBoard(),freeBoard()])
     .then(results=>{
         console.log("results from db", results)

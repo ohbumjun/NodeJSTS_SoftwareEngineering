@@ -15,8 +15,6 @@ router.get('/mypage',function (req,res){
             // return res.render(`index.ejs`,{ data : [] });
             return res.render('mypage.ejs',{mypage_post:[],mypageComment:[]})
         }
-        console.log("-----------------------")
-        console.log("산업체 목록 결과",result)
         post = result
         connection.db.query( 'select * from comment where user_id = ? limit 3',1, async (error, result) => {
             if(error){
@@ -27,8 +25,6 @@ router.get('/mypage',function (req,res){
                 // return res.render(`index.ejs`,{ data : [] });
                 return res.render('mypage.ejs')
             }
-            console.log("-----------------------")
-            console.log("해당 산업체 방문에 대한 리뷰",result)
             comment = result
             return res.render('mypage.ejs',{mypage_post:post,mypageComment:comment})
         })
@@ -37,13 +33,12 @@ router.get('/mypage',function (req,res){
 
 // 게시글 수정  
 router.post('/editpost',(req,res)=>{
-    console.log("req",req.body)
     const {content,contentId} = req.body
     console.log("content,contentId",content,contentId)
     connection.db.query(`
-    update post 
-    set content = ?
-    where post_id= ?`,
+        update post 
+        set content = ?
+        where post_id= ?`,
     [content,contentId],
     (err, result) => {
         if(err){
@@ -58,8 +53,8 @@ router.post('/editpost',(req,res)=>{
 router.post('/deletepost',(req,res)=>{
     const {contentId} = req.body
     connection.db.query(`
-    delete from post 
-    where post_id = ?`,
+        delete from post 
+        where post_id = ?`,
     [contentId],
     (err, result) => {
         if(err){
@@ -72,13 +67,12 @@ router.post('/deletepost',(req,res)=>{
 
 // 댓글 수정  
 router.post('/editcomment',(req,res)=>{
-    console.log("req",req.body)
     const {content,contentId} = req.body
     console.log("content,contentId",content,contentId)
     connection.db.query(`
-    update comment 
-    set content = ?
-    where comment_id= ?`,
+        update comment 
+        set content = ?
+        where comment_id= ?`,
     [content,contentId],
     (err, result) => {
         if(err){
@@ -93,8 +87,8 @@ router.post('/editcomment',(req,res)=>{
 router.post('/deletecomment',(req,res)=>{
     const {contentId} = req.body
     connection.db.query(`
-    delete from comment 
-    where comment_id = ?`,
+        delete from comment 
+        where comment_id = ?`,
     [contentId],
     (err, result) => {
         if(err){
