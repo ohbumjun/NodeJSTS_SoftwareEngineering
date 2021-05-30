@@ -160,6 +160,15 @@
                         <span>방문날짜</span>
                         <time datetime="2020-01-01"><%= moment(comment.visit_time).format('Do MMM, YYYY') %></time>
                       </p>
+                      <div>
+                        <form action="/industrial/editComment" method = "post">
+                          <button type="submit" >edit Comment</button>
+                        </form>
+                        <form action="/industrial/deleteComment" method = "post">
+                          <input name="review_id" hidden value = "<%= comment.review_id %>" class="form-control" ></input>
+                          <button type="submit" >delete Comment</button>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>

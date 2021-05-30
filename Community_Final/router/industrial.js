@@ -35,6 +35,7 @@ router.get('/',(req,res)=>{
     })
 })
 
+// 산업체 후기 작성 
 router.post('/writeComment',(req,res)=>{
     const { review,package_id } = req.body
     console.log("req.body",req.body)
@@ -49,6 +50,23 @@ router.post('/writeComment',(req,res)=>{
         }else{
             return res.redirect(`/industrial/industry/1`)
         }
+    })
+})
+
+// 산업체 후기 삭제 
+router.post('/deleteComment',(req,res)=>{
+    const { review_id } = req.body
+    console.log("req.body",req.body)
+    connection.db.query(`
+    delete from review 
+    where review_id = ?`,
+    [review_id],
+    (err, result) => {
+        if(err){
+            console.log(err)
+            return res.status(404).json({message:'failure'})
+        }
+        return res.redirect('/industrial/industry/1')
     })
 })
 

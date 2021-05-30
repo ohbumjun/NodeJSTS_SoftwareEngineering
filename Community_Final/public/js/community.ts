@@ -110,4 +110,4 @@ const searchPosts=()=>{
         })
     })
 }
-searchWordElem.addEventListener('keydown',searchPosts)
+if(searchWordElem) searchWordElem.addEventListener('keydown',searchPosts)

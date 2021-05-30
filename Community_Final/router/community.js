@@ -122,7 +122,6 @@ router.get('/feedbackboard/post/:postId', function(req,res){
             })
         })
     }
-
     // Comment Info
     let commentInfo = () => {
         return new Promise((resolve,reject) =>{
@@ -141,7 +140,6 @@ router.get('/feedbackboard/post/:postId', function(req,res){
             })
         })
     }
-
     Promise.all([userInfo(),commentInfo()])
     .then(results=>{
         console.log("promise All results", results)
