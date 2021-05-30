@@ -13,3 +13,8 @@ export const reportUser = class {
     connectClickHandler(className : string, e : any ) : void {throw 'override'}
     executeClickHandler() : void {throw 'override'}
 }
+
+export const subController = class{
+    constructor(){}
+    getHtmlElement(className : string, domElem:HTMLElement|Document):HTMLElement|null{return domElem.querySelector(`.${className}`)}
+}

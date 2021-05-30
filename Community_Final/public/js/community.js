@@ -93,7 +93,7 @@ const postClickHandler = (e) => {
 };
 postsDiv === null || postsDiv === void 0 ? void 0 : postsDiv.addEventListener('click', postClickHandler);
 // 검색 기능
-import { getHtmlElement, } from './mypage.js';
+import { getHtmlElement } from './mypage.js';
 let searchedPosts = document.querySelectorAll('[data-search]');
 let searchBtn = getHtmlElement('post-search-button', document);
 let searchWordElem = getHtmlElement('post-search-input', document);

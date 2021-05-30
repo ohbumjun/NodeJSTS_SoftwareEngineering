@@ -90,9 +90,8 @@ const postClickHandler=(e:any)=>{
 }
 postsDiv?.addEventListener('click',postClickHandler)
 
-
 // 검색 기능
-import {getHtmlElement,} from './mypage.js'
+import {getHtmlElement} from './mypage.js'
 let searchedPosts = document.querySelectorAll('[data-search]') as NodeListOf<HTMLElement>
 let searchBtn  = getHtmlElement('post-search-button',document)
 let searchWordElem = getHtmlElement('post-search-input',document) as HTMLInputElement
@@ -110,4 +109,4 @@ const searchPosts=()=>{
         })
     })
 }
-if(searchWordElem) searchWordElem.addEventListener('keydown',searchPosts)
+searchWordElem.addEventListener('keydown',searchPosts)

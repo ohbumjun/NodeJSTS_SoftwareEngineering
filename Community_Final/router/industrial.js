@@ -7,9 +7,7 @@ router.get('/',(req,res)=>{
     var industry;
     var review_comments;
     connection.db.query( 'select * from industry', async (error, result) => {
-        if(error){
-            console.log(error)
-        }
+        if(error){console.log(error)}
         // 해당 값이 없다면 :
         if( !result ){
             // return res.render(`index.ejs`,{ data : [] });
@@ -19,9 +17,7 @@ router.get('/',(req,res)=>{
         console.log("산업체 목록 결과",result)
         industry = result
         connection.db.query( 'select * from review', async (error, result) => {
-            if(error){
-                console.log(error);
-            }
+            if(error){console.log(error);}
             // 해당 값이 없다면 :
             if( !result ){
                 // return res.render(`index.ejs`,{ data : [] });
@@ -42,7 +38,6 @@ router.post('/writeComment',(req,res)=>{
     const query = `INSERT INTO review (visitor_id,visit_time,industry_id,content,package_id)
                     VALUES (?,?,?,?,?) `
     const values = [3,new Date(),1,review,package_id]
-    
     // insert 하기
     connection.db.query( query,values,(error, result) => {
         if(error){
@@ -126,10 +121,6 @@ router.get('/industry/:industry_id',(req,res)=>{
     .then(results=>{
         let packageInfo = results[0][0] // 객체 형태로 전달
         let reviewInfo = results[1] // 배열 형태로 전달
-        console.log("package info")
-        console.log(packageInfo)
-        console.log("review info")
-        console.log(reviewInfo)
         //밑에 render 부분의 ejs 파일은 수정하시면 될 것 같습니다.
         return res.render('industrial.ejs',{packageInfo,reviewInfo})
     })

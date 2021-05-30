@@ -13,3 +13,7 @@ export const reportUser = class {
     connectClickHandler(className, e) { throw 'override'; }
     executeClickHandler() { throw 'override'; }
 };
+export const subController = class {
+    constructor() { }
+    getHtmlElement(className, domElem) { return domElem.querySelector(`.${className}`); }
+};
