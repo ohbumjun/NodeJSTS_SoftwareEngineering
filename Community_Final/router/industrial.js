@@ -36,7 +36,47 @@ router.get('/',(req,res)=>{
 })
 
 router.get('/industry/:industry_id',(req,res)=>{
-    
+    let packageInfo = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from package 
+                where industry_id = 1`, 
+                async (error, packageData) => {
+                if(error){
+                    // console.log("package Error",error)
+                    reject(new Error())
+                }
+                resolve(packageData)
+            })
+        })
+    }
+
+    // Comment Info
+    let reviewInfo = () => {
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from review 
+                where package_id in (select * from package where
+                    industry_id = 1)`, 
+                async (error, reviewData) => {
+                if(error){
+                    // console.log("review Error",error)
+                    reject(new Error())
+                }
+                resolve(reviewData)
+            })
+        })
+    }
+
+    // async : promise가 resolve 되어 넘어올때까지 기다린다 
+    Promise.all([packageInfo(),reviewInfo()])
+    .then(results=>{
+        let packageInfo = results[0] // 객체 형태로 전달
+        let reviewInfo = results[1] // 배열 형태로 전달
+        //밑에 render 부분의 ejs 파일은 수정하시면 될 것 같습니다.
+        return res.render('industrial.ejs',{userInfo,commentInfo})
+    })
+    .catch(err=>console.log(err))
 })
 
 module.exports = router;
