@@ -1,20 +1,20 @@
 import { getHtmlElemByClassNm} from './utils/index.js'
 
 // 검색 기능
-const postProcessor = class {
+class postProcessor{
     searchTargets: any;
-    searchTitleElem : HTMLInputElement|null = null;
+    searchTitleElem : HTMLInputElement;
     constructor(){
         this.searchTargets = document.querySelectorAll('[data-search]') as NodeListOf<HTMLElement>
         this.searchTitleElem = getHtmlElemByClassNm('post-search-input',document) as HTMLInputElement
+        console.log("this.searchTitleElem",this.searchTitleElem)
     }
-    searchTitle(){
-        console.log("searchElem",this.searchTitleElem)
+    searchTitle=():void=>{
         let query = this.searchTitleElem!.value
+        console.log("query",query)
         this.searchTargets.forEach((post:HTMLElement)=>{
             let postTitle = getHtmlElemByClassNm('title',post)?.textContent
             query.split('').map(word=>{
-                console.log("w",word)
                 if(postTitle!.toLowerCase().indexOf(word.toLowerCase())!=-1){ //항목 포함 
                     if(post.classList.contains('hidden'))post.classList.remove('hidden')
                 }else{
@@ -23,10 +23,11 @@ const postProcessor = class {
             })
         })
     }
-    connectEvtHandler(){
+    connectEvtHandler=()=>{
         this.searchTitleElem!.addEventListener('keydown',this.searchTitle)
     }
 }
+
 const postProcessorInst = new postProcessor()
 postProcessorInst.connectEvtHandler()
 /*
