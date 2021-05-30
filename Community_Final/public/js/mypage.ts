@@ -1,5 +1,5 @@
 // edit-open : hidden or not
-import { subController } from "./classes/index.js";
+import { subController,serviceDisplay } from "./classes/index.js";
 import { err, fetchReqInst, getHtmlElemByClassNm } from "./utils/index.js";
 
 // const mypagePostProcessor = class extends PostProcessor {}
@@ -9,11 +9,7 @@ interface domElems {
     'comment': any
 }
 
-const mypageServiceDisplay = class{
-    ctrlEditDisplayHtml(y_edit_Html:HTMLElement,n_edit_Html:HTMLElement):void{
-        y_edit_Html.hidden = !y_edit_Html.hidden; n_edit_Html.hidden = !n_edit_Html.hidden 
-    }
-}
+const mypageServiceDisplay = class extends serviceDisplay {}
 
 const mypageSubController = class extends subController{
     mypageDomElems : domElems = {'post':'','comment':''}

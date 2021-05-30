@@ -291,7 +291,7 @@ router.get('/freeboard/post/:postId', function(req,res){
 })
 
 // 댓글 신고 
-router.post('/reportComment',(req,res)=>{
+router.post('/reportcomment',(req,res)=>{
     console.log("req",req.body)
     const {boardType,commentId} = req.body
     connection.db.query(`
@@ -309,7 +309,7 @@ router.post('/reportComment',(req,res)=>{
 })
 
 // 게시글 신고 
-router.post('/reportPost',(req,res)=>{
+router.post('/reportpost',(req,res)=>{
     const {boardType,postId} = req.body
     connection.db.query(`
         update post 

@@ -43,12 +43,12 @@ const fetchReq = class {
             else{window.location.reload()}
         })
     }
-    // report content
-    reportContent(domElem:HTMLElement):void{
+    // report content(comment or post)
+    reportContent(domElem:HTMLElement,type:string):void{
         const url = window.location.href.split('/')
         const boardType = url[url.length-3]
         const commentId = domElem.getAttribute('data-id')
-        fetch(`/community/reportComment`,
+        fetch(`/community/report${type}`,
         {
             method : 'POST',
             headers: {
@@ -62,7 +62,7 @@ const fetchReq = class {
         .then(res => res.json())
         .then(res=>{
             if(res.message=='failed'){alert("Error")}
-            else{alert("해당 댓글을 신고했습니다")}
+            else{alert(`해당 ${type}을 신고했습니다`)}
         })
     }
 }

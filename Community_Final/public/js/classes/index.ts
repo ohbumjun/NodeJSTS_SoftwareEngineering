@@ -11,14 +11,9 @@ export const reportUser = class {
         if(!getHtmlElemByClassNm(divClassName,document)) err(`No Html Elements with class ${divClassName}`)
         if(!getHtmlElemById(targetId,document)) err(`No Html Elements with class ${targetId}`)
         this.contentsDiv = getHtmlElemByClassNm(divClassName,document)
-        this.targetId = targetId        
+        this.targetId = targetId 
     }
-    report() : void {throw 'override' }
-    clickHandler(e:any):void{
-        if(e.target.id == 'alertIcon'){
-            fetchReqInst.reportContent(e.target)
-        }
-    }
+    clickHandler(e:any):void{throw "must override"}
     connectClickHandler() : void {
         this.contentsDiv!.addEventListener('click',this.clickHandler)
     }
@@ -28,3 +23,9 @@ export const subController = class{
     constructor(){}
     getHtmlElemByClassNm(className : string, domElem:HTMLElement|Document):HTMLElement|null{return domElem.querySelector(`.${className}`)}
 }
+export const serviceDisplay = class {
+    constructor() { }
+    ctrlEditDisplayHtml(y_edit_Html:HTMLElement,n_edit_Html:HTMLElement):void{
+        y_edit_Html.hidden = !y_edit_Html.hidden; n_edit_Html.hidden = !n_edit_Html.hidden 
+    }
+};

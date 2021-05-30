@@ -39,12 +39,12 @@ const fetchReq = class {
             }
         });
     }
-    // report content
-    reportContent(domElem) {
+    // report content(comment or post)
+    reportContent(domElem, type) {
         const url = window.location.href.split('/');
         const boardType = url[url.length - 3];
         const commentId = domElem.getAttribute('data-id');
-        fetch(`/community/reportComment`, {
+        fetch(`/community/report${type}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ const fetchReq = class {
                 alert("Error");
             }
             else {
-                alert("해당 댓글을 신고했습니다");
+                alert(`해당 ${type}을 신고했습니다`);
             }
         });
     }

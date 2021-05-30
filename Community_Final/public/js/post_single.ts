@@ -6,8 +6,10 @@ const reportComments = class extends reportUser{
         // constructor(){
         super(divClassName,targetClassName)      
     }
-    report(){
-        return;
+    clickHandler(e:any):void{
+        if(e.target.id == 'alertIcon'){
+            fetchReqInst.reportContent(e.target,"comment")
+        }
     }
 }
 const reportCmtsInst = new reportComments('blog-comments','alertIcon')
@@ -71,21 +73,3 @@ postsDiv?.addEventListener('click',postClickHandler)
 
 */
 
-// 검색 기능
-let searchedPosts = document.querySelectorAll('[data-search]') as NodeListOf<HTMLElement>
-let searchBtn  = getHtmlElemByClassNm('post-search-button',document)
-let searchWordElem = getHtmlElemByClassNm('post-search-input',document) as HTMLInputElement
-const searchPosts=()=>{
-    let query = searchWordElem.value
-    searchedPosts.forEach((post:HTMLElement)=>{
-        let postTitle = getHtmlElemByClassNm('title',post)?.textContent
-        query.split('').map(word=>{
-            if(postTitle!.toLowerCase().indexOf(word.toLowerCase())!=-1){ //항목 포함 
-                if(post.classList.contains('hidden'))post.classList.remove('hidden')
-            }else{
-                if(!post.classList.contains('hidden'))post.classList.add('hidden')
-            }
-        })
-    })
-}
-if(searchWordElem) searchWordElem.addEventListener('keydown',searchPosts)

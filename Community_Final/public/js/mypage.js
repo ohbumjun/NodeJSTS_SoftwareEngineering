@@ -1,11 +1,7 @@
 // edit-open : hidden or not
-import { subController } from "./classes/index.js";
+import { subController, serviceDisplay } from "./classes/index.js";
 import { err, fetchReqInst, getHtmlElemByClassNm } from "./utils/index.js";
-const mypageServiceDisplay = class {
-    ctrlEditDisplayHtml(y_edit_Html, n_edit_Html) {
-        y_edit_Html.hidden = !y_edit_Html.hidden;
-        n_edit_Html.hidden = !n_edit_Html.hidden;
-    }
+const mypageServiceDisplay = class extends serviceDisplay {
 };
 const mypageSubController = class extends subController {
     constructor(postClassNm, cmtClassNm) {
