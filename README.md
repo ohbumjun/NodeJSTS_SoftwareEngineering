@@ -165,6 +165,11 @@ sequence diagram은 Use case 1,2를 제외하고 각 Use case별로 작성되었
 게시판 등등을 클릭하면 각각 후기, 자유, 준비 게시판에 해당하는 페이지로 넘어갈 수 있습니다.  
 
 ***
+
+***
+![1  displayTop3 ](https://user-images.githubusercontent.com/11494592/120106311-7c072e80-c197-11eb-8423-e571c9a8ba07.PNG) 페해당 메인 페이지에서 스크롤해서 내려보면 위와 같이 자유, 후기, 준비 게시판 각각의 조회수 기준 상위 3개의 게시글들이
+디스플레이 됨을 알 수 있습니다.
+***
 ![슬라이드3](https://user-images.githubusercontent.com/11494592/120094230-295b5180-c15a-11eb-9dc2-3d0a6f0cbe50.JPG)
 ![슬라이드4](https://user-images.githubusercontent.com/11494592/120094231-29f3e800-c15a-11eb-95b2-68d4a7d1d8d5.JPG)
 ![슬라이드5](https://user-images.githubusercontent.com/11494592/120094232-2a8c7e80-c15a-11eb-9cf8-f872d438de12.JPG)
