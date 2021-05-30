@@ -192,6 +192,9 @@ sequence diagram은 Use case 1,2를 제외하고 각 Use case별로 작성되었
 
 각 게시글은 신고 버튼이 존재하며, ! 모양을 클릭할 시 해당 게시글을 신고할 수 있습니다.
 ***
+
+![10](https://user-images.githubusercontent.com/11494592/120105984-3433d780-c196-11eb-95dc-9de261ff405e.PNG)
+
 ## Built With
 
 * [kuc00000](https://github.com/kuc00000)
