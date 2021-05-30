@@ -193,9 +193,29 @@ sequence diagram은 Use case 1,2를 제외하고 각 Use case별로 작성되었
 각 게시글은 신고 버튼이 존재하며, ! 모양을 클릭할 시 해당 게시글을 신고할 수 있습니다.
 ***
 
+***
 ![10](https://user-images.githubusercontent.com/11494592/120105984-3433d780-c196-11eb-95dc-9de261ff405e.PNG)
 
+mypage는 현재 로그인한 유저가 작성한 게시글 및 댓글에 대한 목록이 나타납니다.
+
+유저는 수정버튼을 클릭해 본인이 작성했던 게시글 혹은 댓글을 수정할 수 있으며, 삭제버튼을 눌러 본인이 작성했던 게시글 혹은 댓글을
+삭제할 수 있습니다.
+
+***
+![11](https://user-images.githubusercontent.com/11494592/120106079-968cd800-c196-11eb-91d1-e19ac4ba8c0c.PNG)
+메인페이지 우측 상단에 산업체라는 버튼을 클릭하면 위와 같은 산업체 패키지에 대한 페이지로 이동합니다.
+
+해당 페이지는 산업체 패키지의 이름, 그리고 이에 대한 설명을 디스플레이합니다.
+***
+![12](https://user-images.githubusercontent.com/11494592/120106150-eec3da00-c196-11eb-91e3-989aee517a65.PNG)
+
+조금 더 산업체 페이지에서 스크롤해서 내려보면 해당 패키지에 대한 후기 댓글들이 나타납니다. 
+만일 후기 댓글들을 작성한 사람이 현재 로그인한 본인이라면 위와 같이 edit comment, delete comment 버튼이 나타나서 본인이 작성한 후기 댓글을 수정하거나 삭제할 수 있습니다.
+
+그리고 맨 밑에 Leave a Reply 파트에 원하는 내용을 입력한 다음 post comment를 클릭하면 해당 내용의 후기 댓글이 작성됩니다.
+
 ## Built With
+
 
 * [kuc00000](https://github.com/kuc00000)
   * Create README.md
