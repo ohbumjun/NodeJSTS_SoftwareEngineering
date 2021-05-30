@@ -1,7 +1,7 @@
 import { err,
     getHtmlElemByClassNm,
-    getHtmlElemById,
-    fetchReqInst } from "../utils/index.js";
+    getHtmlElemById
+} from "../utils/index.js";
 
 export const reportUser = class {
     contentId : number = 0 ;

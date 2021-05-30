@@ -13,67 +13,10 @@ const reportPosts = class extends reportUser {
 };
 const reportPostsInst = new reportPosts('singlePosts', 'alertIcon');
 reportPostsInst.connectClickHandler();
-/*
-let commentsDiv = document.querySelector('.blog-comments')
-const commentClickHandler=(e:any)=>{
-    if(e.target.className.includes('alertIcon')){
-        const url = window.location.href.split('/')
-        const boardType = url[url.length-3]
-        const commentId = e.target.getAttribute('data-id')
-        fetch(`/community/reportComment`,
-        {
-            method : 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                boardType,
-                commentId
-            })
-        })
-        .then(res => res.json())
-        .then(res=>{
-            if(res.message=='failed'){alert("Error")}
-            else{alert("해당 댓글을 신고했습니다")}
-        })
-    }
-}
-commentsDiv?.addEventListener('click',commentClickHandler)
-
-
-// 게시글 신고
-let postsDiv = document.querySelector(`.singlePosts`)
-const postClickHandler=(e:any)=>{
-    if(e.target.className.includes('alertIcon')){
-        const url = window.location.href.split('/')
-        const boardType = url[url.length-1]
-        const postId = e.target.getAttribute('data-id')
-        console.log("postId",postId)
-        fetch(`/community/reportPost`,
-        {
-            method : 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                boardType,
-                postId
-            })
-        })
-        .then(res => res.json())
-        .then(res=>{
-            if(res.message=='failed'){alert("Error")}
-            else{alert("해당 게시글을 신고했습니다")}
-        })
-    }
-}
-postsDiv?.addEventListener('click',postClickHandler)
-
-*/
 // 검색 기능
 const postProcessor = class {
     constructor() {
-        this.searchTitleElem = new HTMLInputElement();
+        this.searchTitleElem = null;
         this.searchTargets = document.querySelectorAll('[data-search]');
         this.searchTitleElem = getHtmlElemByClassNm('post-search-input', document);
     }
