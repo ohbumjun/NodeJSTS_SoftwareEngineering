@@ -105,13 +105,11 @@
                 <p>
                   <%= packageInfo.description %>
                 </p>
-
                 <blockquote>
                   <p>
                     <%= packageInfo.description %>
                   </p>
                 </blockquote>
-
               </div>
 
               <div class="entry-footer">
@@ -156,12 +154,10 @@
                       <h5>
                         <span><%= comment.content %></span>
                         <!-- <i id="alertIcon" data-id="<%= comment.review_id %>" class="bi bi-exclamation-octagon"></i> -->
-                        <span>신고</span>
                       </h5>
+                      <br/>
                       <p>
-                        "방문날짜"
-                      </p>
-                      <p>
+                        <span>방문날짜</span>
                         <time datetime="2020-01-01"><%= moment(comment.visit_time).format('Do MMM, YYYY') %></time>
                       </p>
                     </div>
@@ -169,30 +165,14 @@
                 </div>
               <%}) %>
 
-              <!-- 
-              <div id="comment-1" class="comment">
-                <div class="d-flex">
-                  <div class="comment-img"><img src="/img/blog/comments-1.jpg" alt=""></div>
-                  <div>
-                    <h5><a href="">Georgia Reader</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">01 Jan, 2020</time>
-                    <p>
-                      Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad aut sapiente quis molestiae est qui cum soluta.
-                      Vero aut rerum vel. Rerum quos laboriosam placeat ex qui. Sint qui facilis et.
-                    </p>
-                  </div>
-                </div>
-              </div> 
-            -->
-              <!-- End comment #1 -->
-
               <div class="reply-form">
                 <h4>Leave a Reply</h4>
                 <p>Your email address will not be published. Required fields are marked * </p>
-                <form action="/community/writeComment" method = "post">
+                <form action="/industrial/writeComment" method = "post">
                   <div class="row">
                     <div class="col form-group">
-                      <textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
+                      <textarea name="review" class="form-control" placeholder="Your Comment*"></textarea>
+                      <input name="package_id" hidden value = "<%= packageInfo.package_id %>" class="form-control" ></input>
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary">Post Comment</button>

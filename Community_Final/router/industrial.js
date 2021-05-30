@@ -35,6 +35,23 @@ router.get('/',(req,res)=>{
     })
 })
 
+router.post('/writeComment',(req,res)=>{
+    const { review,package_id } = req.body
+    console.log("req.body",req.body)
+    const query = `INSERT INTO review (visitor_id,visit_time,industry_id,content,package_id)
+                    VALUES (?,?,?,?,?) `
+    const values = [3,new Date(),1,review,package_id]
+    
+    // insert 하기
+    connection.db.query( query,values,(error, result) => {
+        if(error){
+            return res.status(400).json({message : 'failed'})
+        }else{
+            return res.redirect(`/industrial/industry/1`)
+        }
+    })
+})
+
 router.get('/industry/:industry_id',(req,res)=>{
     let packageInfo = () => {
         return new Promise((resolve,reject) =>{
