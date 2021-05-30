@@ -1,26 +1,16 @@
-import { reportUser } from "./classes/index.js"
-import {err, fetchReqInst, getHtmlElemByClassNm} from './utils/index.js'
-
-const reportComments = class extends reportUser{
-    constructor(divClassName : string, targetClassName : string){
+import { reportUser } from "./classes/index.js";
+import { getHtmlElemByClassNm } from './utils/index.js';
+const reportComments = class extends reportUser {
+    constructor(divClassName, targetClassName) {
         // constructor(){
-        super(divClassName,targetClassName)      
+        super(divClassName, targetClassName);
     }
-    report(){
+    report() {
         return;
     }
-}
-const reportPosts = class extends reportUser{
-    constructor(divClassName : string, targetClassName : string){
-        // constructor(){
-        super(divClassName,targetClassName)      
-    }
-}
-const reportCmtsInst = new reportComments('blog-comments','alertIcon')
-const reportPostsInst = new reportPosts('singlePosts','alertIcon')
-reportCmtsInst.connectClickHandler()
-reportPostsInst.connectClickHandler()
-
+};
+const reportCmtsInst = new reportComments('blog-comments', 'alertIcon');
+reportCmtsInst.connectClickHandler();
 /*
 let commentsDiv = document.querySelector('.blog-comments')
 const commentClickHandler=(e:any)=>{
@@ -78,22 +68,26 @@ const postClickHandler=(e:any)=>{
 postsDiv?.addEventListener('click',postClickHandler)
 
 */
-
 // 검색 기능
-let searchedPosts = document.querySelectorAll('[data-search]') as NodeListOf<HTMLElement>
-let searchBtn  = getHtmlElemByClassNm('post-search-button',document)
-let searchWordElem = getHtmlElemByClassNm('post-search-input',document) as HTMLInputElement
-const searchPosts=()=>{
-    let query = searchWordElem.value
-    searchedPosts.forEach((post:HTMLElement)=>{
-        let postTitle = getHtmlElemByClassNm('title',post)?.textContent
-        query.split('').map(word=>{
-            if(postTitle!.toLowerCase().indexOf(word.toLowerCase())!=-1){ //항목 포함 
-                if(post.classList.contains('hidden'))post.classList.remove('hidden')
-            }else{
-                if(!post.classList.contains('hidden'))post.classList.add('hidden')
+let searchedPosts = document.querySelectorAll('[data-search]');
+let searchBtn = getHtmlElemByClassNm('post-search-button', document);
+let searchWordElem = getHtmlElemByClassNm('post-search-input', document);
+const searchPosts = () => {
+    let query = searchWordElem.value;
+    searchedPosts.forEach((post) => {
+        var _a;
+        let postTitle = (_a = getHtmlElemByClassNm('title', post)) === null || _a === void 0 ? void 0 : _a.textContent;
+        query.split('').map(word => {
+            if (postTitle.toLowerCase().indexOf(word.toLowerCase()) != -1) { //항목 포함 
+                if (post.classList.contains('hidden'))
+                    post.classList.remove('hidden');
             }
-        })
-    })
-}
-searchWordElem.addEventListener('keydown',searchPosts)
+            else {
+                if (!post.classList.contains('hidden'))
+                    post.classList.add('hidden');
+            }
+        });
+    });
+};
+if (searchWordElem)
+    searchWordElem.addEventListener('keydown', searchPosts);

@@ -10,16 +10,8 @@ const reportComments = class extends reportUser{
         return;
     }
 }
-const reportPosts = class extends reportUser{
-    constructor(divClassName : string, targetClassName : string){
-        // constructor(){
-        super(divClassName,targetClassName)      
-    }
-}
 const reportCmtsInst = new reportComments('blog-comments','alertIcon')
-const reportPostsInst = new reportPosts('singlePosts','alertIcon')
 reportCmtsInst.connectClickHandler()
-reportPostsInst.connectClickHandler()
 
 /*
 let commentsDiv = document.querySelector('.blog-comments')
@@ -96,4 +88,4 @@ const searchPosts=()=>{
         })
     })
 }
-searchWordElem.addEventListener('keydown',searchPosts)
+if(searchWordElem) searchWordElem.addEventListener('keydown',searchPosts)

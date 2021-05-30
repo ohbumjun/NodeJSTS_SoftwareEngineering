@@ -1,19 +1,27 @@
+import { err, getHtmlElemByClassNm, getHtmlElemById, fetchReqInst } from "../utils/index.js";
 export const reportUser = class {
-    constructor() {
+    constructor(divClassName, targetId) {
         this.contentId = 0;
-        this.targetClassName = '';
-        this.contentsDiv = new HTMLDivElement();
-        // constructor(contentId : number, className : string){
-        // contentId : 댓글 혹은 게시글 id
-        // this.contentsDiv = document.querySelector(`.${className}`)
+        this.targetId = '';
+        this.contentsDiv = null;
+        if (!getHtmlElemByClassNm(divClassName, document))
+            err(`No Html Elements with class ${divClassName}`);
+        if (!getHtmlElemById(targetId, document))
+            err(`No Html Elements with class ${targetId}`);
+        this.contentsDiv = getHtmlElemByClassNm(divClassName, document);
+        this.targetId = targetId;
     }
-    inputError(className) { return !document.querySelector(`.${className}`) ? true : false; }
     report() { throw 'override'; }
-    sampleClickHandler(className, e) { throw 'override'; }
-    connectClickHandler(className, e) { throw 'override'; }
-    executeClickHandler() { throw 'override'; }
+    clickHandler(e) {
+        if (e.target.id == 'alertIcon') {
+            fetchReqInst.reportContent(e.target);
+        }
+    }
+    connectClickHandler() {
+        this.contentsDiv.addEventListener('click', this.clickHandler);
+    }
 };
 export const subController = class {
     constructor() { }
-    getHtmlElement(className, domElem) { return domElem.querySelector(`.${className}`); }
+    getHtmlElemByClassNm(className, domElem) { return domElem.querySelector(`.${className}`); }
 };

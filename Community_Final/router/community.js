@@ -96,7 +96,7 @@ router.get('/feedbackboard', function(req,res){
             // return res.render(`index.ejs`,{ data : [] });
             return res.render('index.ejs')
         }
-        return res.render('feedbackboard.ejs',{review:result})
+        return res.render('feedbackboard.ejs',{datas:result})
     })
 })
 
@@ -165,7 +165,7 @@ router.get('/prepareboard', function(req,res){
             return res.render('index.ejs')
         }
         console.log("준비 게시판의 데이터들은?")
-        return res.render('prepareboard.ejs',{prepare:result})
+        return res.render('prepareboard.ejs',{datas:result})
     })
 })
 
@@ -236,7 +236,7 @@ router.get('/freeboard', function(req,res){
             return res.render('index.ejs')
         }
         console.log("자유 게시판의 데이터들은?")
-        return res.render('freeboard.ejs',{free:result})
+        return res.render('freeboard.ejs',{datas:result})
     })
 })
 

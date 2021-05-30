@@ -1,20 +1,30 @@
+import { err,
+    getHtmlElemByClassNm,
+    getHtmlElemById,
+    fetchReqInst } from "../utils/index.js";
+
 export const reportUser = class {
     contentId : number = 0 ;
-    targetClassName : string = '';
-    contentsDiv : HTMLDivElement | null = new HTMLDivElement() ;
-    constructor(){
-    // constructor(contentId : number, className : string){
-        // contentId : 댓글 혹은 게시글 id
-        // this.contentsDiv = document.querySelector(`.${className}`)
+    targetId : string = '';
+    contentsDiv : HTMLElement | null = null ;
+    constructor(divClassName : string, targetId : string){
+        if(!getHtmlElemByClassNm(divClassName,document)) err(`No Html Elements with class ${divClassName}`)
+        if(!getHtmlElemById(targetId,document)) err(`No Html Elements with class ${targetId}`)
+        this.contentsDiv = getHtmlElemByClassNm(divClassName,document)
+        this.targetId = targetId        
     }
-    inputError(className : string):boolean{return !document.querySelector(`.${className}`) ? true : false}
     report() : void {throw 'override' }
-    sampleClickHandler(className : string, e : any ) : void {throw 'override'}
-    connectClickHandler(className : string, e : any ) : void {throw 'override'}
-    executeClickHandler() : void {throw 'override'}
+    clickHandler(e:any):void{
+        if(e.target.id == 'alertIcon'){
+            fetchReqInst.reportContent(e.target)
+        }
+    }
+    connectClickHandler() : void {
+        this.contentsDiv!.addEventListener('click',this.clickHandler)
+    }
 }
 
 export const subController = class{
     constructor(){}
-    getHtmlElement(className : string, domElem:HTMLElement|Document):HTMLElement|null{return domElem.querySelector(`.${className}`)}
+    getHtmlElemByClassNm(className : string, domElem:HTMLElement|Document):HTMLElement|null{return domElem.querySelector(`.${className}`)}
 }

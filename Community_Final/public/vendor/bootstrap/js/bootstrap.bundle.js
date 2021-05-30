@@ -3300,7 +3300,7 @@
     requiresIfExists: ['offset']
   };
 
-  function getHTMLElementScroll(element) {
+  function getHtmlElemByClassNmScroll(element) {
     return {
       scrollLeft: element.scrollLeft,
       scrollTop: element.scrollTop
@@ -3311,7 +3311,7 @@
     if (node === getWindow(node) || !isHTMLElement(node)) {
       return getWindowScroll(node);
     } else {
-      return getHTMLElementScroll(node);
+      return getHtmlElemByClassNmScroll(node);
     }
   }
 

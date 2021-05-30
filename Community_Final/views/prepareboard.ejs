@@ -78,12 +78,11 @@
     <!-- ======= feedbackboard Section ======= -->
     <section id="feedbackboard" class="feedbackboard">
       <div class="container">
-
-        <div class="row" data-class ="singlePosts">
-          <% prepare.forEach((data) => { %>
+        <div class="row singlePosts" data-class ="">
+          <% datas.forEach((data) => { %>
             <div class="col-lg-6" data-aos="fade-up">
               <div class="testimonial-item">
-                <img src="/img/feedbackboard/feedbackboard-1.jpg" class="testimonial-img" alt="">
+                <img src="/img/prepareboard/prepareboard-1.jpg" class="testimonial-img" alt="">
                 <a href="/community/prepareboard/post/<%= data.post_id %>">
                   <h3><%= data.title %></h3>
                 </a>
@@ -100,7 +99,6 @@
             </div>
           <%}) %>
         </div>
-
       </div>
     </section><!-- End feedbackboard Section -->
 
@@ -195,7 +193,7 @@
 
   <!-- Template Main JS File -->
   <script src="/js/main.js"></script>
-  <script type ="module" src="/js/community.js"></script>
+  <script type ="module" src="/js/posts.js"></script>
 
 </body>
 

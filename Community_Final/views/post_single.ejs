@@ -115,8 +115,6 @@
                 <p>
                   <%= userInfo.content %>  
                 </p>
-                
-
               </div>
 
               <div class="entry-footer">
@@ -127,11 +125,7 @@
                 </ul>
 
                 <i class="bi bi-tags"></i>
-                <!-- <ul class="tags">
-                  <li><a href="#">Creative</a></li>
-                  <li><a href="#">Tips</a></li>
-                  <li><a href="#">Marketing</a></li>
-                </ul> -->
+                
               </div>
 
             </article><!-- End blog entry -->
@@ -160,7 +154,7 @@
                     <div>
                       <h5>
                         <span><%= comment.user_name %></span>
-                        <i id="alertIcon" data-id="<%= comment.comment_id %>" class="bi bi-exclamation-octagon"></i>
+                        <i id ="alertIcon" data-id="<%= comment.comment_id %>" class="bi bi-exclamation-octagon"></i>
                         <span>신고</span>
                       </h5>
                       <p>
@@ -175,21 +169,6 @@
                 </div>
               <%}) %>
 
-              <!-- 
-              <div id="comment-1" class="comment">
-                <div class="d-flex">
-                  <div class="comment-img"><img src="/img/blog/comments-1.jpg" alt=""></div>
-                  <div>
-                    <h5><a href="">Georgia Reader</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">01 Jan, 2020</time>
-                    <p>
-                      Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad aut sapiente quis molestiae est qui cum soluta.
-                      Vero aut rerum vel. Rerum quos laboriosam placeat ex qui. Sint qui facilis et.
-                    </p>
-                  </div>
-                </div>
-              </div> 
-            -->
               <!-- End comment #1 -->
 
               <div class="reply-form">
@@ -306,7 +285,7 @@
 
   <!-- Template Main JS File -->
   <script src="/js/main.js"></script>
-  <script type = "module" src="/js/community.js"></script>
+  <script type = "module" src="/js/post_single.js"></script>
 
 </body>
 
