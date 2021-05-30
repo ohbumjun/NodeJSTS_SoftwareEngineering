@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 const connection = require('../db/db.js');
 
-router.get('/industrial',(req,res)=>{
+router.get('/',(req,res)=>{
     var industry;
     var review_comments;
     connection.db.query( 'select * from industry', async (error, result) => {
@@ -33,6 +33,10 @@ router.get('/industrial',(req,res)=>{
             return res.render('industrial.ejs',{industry:post,industry_review:review_comments})
         })
     })
+})
+
+router.get('/industry/:industry_id',(req,res)=>{
+    
 })
 
 module.exports = router;
