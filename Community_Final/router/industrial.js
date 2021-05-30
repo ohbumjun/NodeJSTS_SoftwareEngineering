@@ -53,6 +53,24 @@ router.post('/writeComment',(req,res)=>{
     })
 })
 
+// 산업체 후기 편집
+router.post('/editComment',(req,res)=>{
+    const { review_id, review } = req.body
+    console.log("req.body",req.body)
+    connection.db.query(`
+        update review 
+        set content = ?
+        where review_id= ?`,
+    [review,review_id],
+    (err, result) => {
+        if(err){
+            console.log(err)
+            return res.status(404).json({message:'failure'})
+        }
+        return res.redirect(`/industrial/industry/1`)
+    })
+})
+
 // 산업체 후기 삭제 
 router.post('/deleteComment',(req,res)=>{
     const { review_id } = req.body

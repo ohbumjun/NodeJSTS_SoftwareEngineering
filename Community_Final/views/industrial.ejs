@@ -163,7 +163,10 @@
                       <div>
                         <form action="/industrial/editComment" method = "post">
                           <button type="submit" >edit Comment</button>
+                          <textarea name="review" class="form-control" placeholder="Edit Comment*"></textarea>
+                          <input name="review_id" hidden value = "<%= comment.review_id %>" class="form-control" ></input>
                         </form>
+                        <br/>
                         <form action="/industrial/deleteComment" method = "post">
                           <input name="review_id" hidden value = "<%= comment.review_id %>" class="form-control" ></input>
                           <button type="submit" >delete Comment</button>
