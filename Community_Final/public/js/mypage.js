@@ -1,4 +1,3 @@
-"use strict";
 // edit-open : hidden or not
 // const mypagePostProcessor = class extends PostProcessor {}
 const mypagePostProcessor = class {
@@ -11,7 +10,7 @@ let mypageDomElems = {
         totalDiv: document.querySelectorAll('[data-comment]'),
     }
 };
-const getHtmlElement = (className, domElem) => domElem.querySelector(`.${className}`);
+export const getHtmlElement = (className, domElem) => domElem.querySelector(`.${className}`);
 const ctrlEditDisplayHtml = (y_edit_Html, n_edit_Html) => {
     y_edit_Html.hidden = !y_edit_Html.hidden;
     n_edit_Html.hidden = !n_edit_Html.hidden;
@@ -82,7 +81,9 @@ const deleteFetch = (contentId, type) => {
         if (res.message == 'failed') {
             alert("Error");
         }
-        else { } // window.location.reload()
+        else {
+            window.location.reload();
+        } // 
     });
 };
 const mypageClickHandlers = {

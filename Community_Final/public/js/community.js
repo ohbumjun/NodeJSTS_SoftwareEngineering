@@ -92,3 +92,27 @@ const postClickHandler = (e) => {
     }
 };
 postsDiv === null || postsDiv === void 0 ? void 0 : postsDiv.addEventListener('click', postClickHandler);
+// 검색 기능
+import { getHtmlElement, } from './mypage.js';
+let searchedPosts = document.querySelectorAll('[data-search]');
+let searchBtn = getHtmlElement('post-search-button', document);
+let searchWordElem = getHtmlElement('post-search-input', document);
+const searchPosts = () => {
+    let query = searchWordElem.value;
+    searchedPosts.forEach((post) => {
+        var _a;
+        let postTitle = (_a = getHtmlElement('title', post)) === null || _a === void 0 ? void 0 : _a.textContent;
+        query.split('').map(word => {
+            if (postTitle.toLowerCase().indexOf(word.toLowerCase()) != -1) { //항목 포함 
+                console.log("contain");
+                if (post.classList.contains('hidden'))
+                    post.classList.remove('hidden');
+            }
+            else {
+                if (!post.classList.contains('hidden'))
+                    post.classList.add('hidden');
+            }
+        });
+    });
+};
+searchWordElem.addEventListener('keydown', searchPosts);

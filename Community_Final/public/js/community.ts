@@ -89,3 +89,25 @@ const postClickHandler=(e:any)=>{
     }
 }
 postsDiv?.addEventListener('click',postClickHandler)
+
+
+// 검색 기능
+import {getHtmlElement,} from './mypage.js'
+let searchedPosts = document.querySelectorAll('[data-search]') as NodeListOf<HTMLElement>
+let searchBtn  = getHtmlElement('post-search-button',document)
+let searchWordElem = getHtmlElement('post-search-input',document) as HTMLInputElement
+const searchPosts=()=>{
+    let query = searchWordElem.value
+    searchedPosts.forEach((post:HTMLElement)=>{
+        let postTitle = getHtmlElement('title',post)?.textContent
+        query.split('').map(word=>{
+            if(postTitle!.toLowerCase().indexOf(word.toLowerCase())!=-1){ //항목 포함 
+                console.log("contain")
+                if(post.classList.contains('hidden'))post.classList.remove('hidden')
+            }else{
+                if(!post.classList.contains('hidden'))post.classList.add('hidden')
+            }
+        })
+    })
+}
+searchWordElem.addEventListener('keydown',searchPosts)

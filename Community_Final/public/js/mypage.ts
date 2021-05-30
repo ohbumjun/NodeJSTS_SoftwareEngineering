@@ -1,6 +1,5 @@
 // edit-open : hidden or not
 // const mypagePostProcessor = class extends PostProcessor {}
-
 const mypagePostProcessor = class{
 
 }
@@ -13,7 +12,7 @@ let mypageDomElems = {
         totalDiv : document.querySelectorAll('[data-comment]') as NodeListOf<HTMLElement>,
     }
 }
-const getHtmlElement=(className : string, domElem:HTMLElement):HTMLElement|null=> domElem.querySelector(`.${className}`)
+export const getHtmlElement=(className : string, domElem:HTMLElement|Document):HTMLElement|null=> domElem.querySelector(`.${className}`)
 const ctrlEditDisplayHtml=(y_edit_Html:HTMLElement,n_edit_Html:HTMLElement)=>{
     y_edit_Html.hidden = !y_edit_Html.hidden; n_edit_Html.hidden = !n_edit_Html.hidden 
 }

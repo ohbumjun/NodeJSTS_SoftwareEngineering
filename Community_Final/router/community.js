@@ -64,8 +64,25 @@ router.get('/', function(req,res){
         return res.render('index.ejs',{review:review_post,prepare:prepare_post,free:free_post})
     })
     .catch(err=>{return res.render('index.ejs',{review:[],prepare:[],free:[]})})
-    
 })
+
+// 검색 게시판
+router.get('/search', function(req,res){
+    connection.db.query( 
+        'select * from post',
+        async (error, result) => {
+        if(error){
+            console.log(error);
+        }
+        // 해당 값이 없다면 :
+        if( !result ){
+            // return res.render(`index.ejs`,{ data : [] });
+            return res.render('search.ejs',{search : []})
+        }
+        return res.render('search.ejs',{search : result })
+    })
+})
+
 
 // 후기 게시판
 router.get('/feedbackboard', function(req,res){
