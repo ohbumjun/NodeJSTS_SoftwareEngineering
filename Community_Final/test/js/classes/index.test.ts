@@ -1,9 +1,9 @@
-import * as domainModel from "../../../public/js/classes"
+import {serviceDisplay} from "../../../public/js/classes"
 
 describe('serviceDisplay test suite',()=>{
-    let serviceDisplayT : domainModel.serviceDisplay
+    let serviceDisplayT : serviceDisplay
     beforeEach(()=>{
-        serviceDisplayT = new domainModel.serviceDisplay()
+        serviceDisplayT = new serviceDisplay()
     })
     afterEach(()=>{
         jest.clearAllMocks();
