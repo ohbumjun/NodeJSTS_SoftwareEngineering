@@ -1,4 +1,3 @@
-import { nullPost,nullComment } from "../design/index.js";
 import { err,
     getHtmlElemByClassNm,
     getHtmlElemById
@@ -24,7 +23,7 @@ export const subController = class{
     constructor(){}
     getHtmlElemByClassNm(className : string, domElem:HTMLElement|Document):HTMLElement|null{return domElem.querySelector(`.${className}`)}
 }
-export const serviceDisplay = class {
+export class serviceDisplay {
     constructor() { }
     ctrlEditDisplayHtml(y_edit_Html:HTMLElement,n_edit_Html:HTMLElement):void{
         y_edit_Html.hidden = !y_edit_Html.hidden; n_edit_Html.hidden = !n_edit_Html.hidden 

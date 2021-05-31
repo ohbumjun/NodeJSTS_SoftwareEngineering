@@ -1,4 +1,7 @@
-export class nullPost {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.nullComment = exports.nullPost = void 0;
+class nullPost {
     constructor() {
         this.post_id = -1;
         this.title = "null";
@@ -10,7 +13,8 @@ export class nullPost {
         this.report_type = -1;
     }
 }
-export class nullComment {
+exports.nullPost = nullPost;
+class nullComment {
     constructor() {
         this.comment_id = -1;
         this.post_id = -1;
@@ -20,3 +24,4 @@ export class nullComment {
         this.content = 'null';
     }
 }
+exports.nullComment = nullComment;

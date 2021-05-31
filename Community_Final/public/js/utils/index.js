@@ -1,5 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getHtmlElemById = exports.getHtmlElemByClassNm = exports.fetchReqInst = exports.err = void 0;
 // error 
-export const err = (v) => { throw v; };
+const err = (v) => { throw v; };
+exports.err = err;
 // 형 검사 
 const info = class {
     checkData() { throw 'checkData must override'; }
@@ -65,7 +69,9 @@ const fetchReq = class {
         });
     }
 };
-export const fetchReqInst = new fetchReq();
+exports.fetchReqInst = new fetchReq();
 // get html elem
-export const getHtmlElemByClassNm = (className, domElem) => { return domElem.querySelector(`.${className}`); };
-export const getHtmlElemById = (id, domElem) => { return domElem.querySelector(`#${id}`); };
+const getHtmlElemByClassNm = (className, domElem) => { return domElem.querySelector(`.${className}`); };
+exports.getHtmlElemByClassNm = getHtmlElemByClassNm;
+const getHtmlElemById = (id, domElem) => { return domElem.querySelector(`#${id}`); };
+exports.getHtmlElemById = getHtmlElemById;

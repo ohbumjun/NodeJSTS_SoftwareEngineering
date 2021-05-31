@@ -1,14 +1,17 @@
-import { err, getHtmlElemByClassNm, getHtmlElemById } from "../utils/index.js";
-export const reportUser = class {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.serviceDisplay = exports.subController = exports.reportUser = void 0;
+const index_js_1 = require("../utils/index.js");
+const reportUser = class {
     constructor(divClassName, targetId) {
         this.contentId = 0;
         this.targetId = '';
         this.contentsDiv = null;
-        if (!getHtmlElemByClassNm(divClassName, document))
-            err(`No Html Elements with class ${divClassName}`);
-        if (!getHtmlElemById(targetId, document))
-            err(`No Html Elements with class ${targetId}`);
-        this.contentsDiv = getHtmlElemByClassNm(divClassName, document);
+        if (!index_js_1.getHtmlElemByClassNm(divClassName, document))
+            index_js_1.err(`No Html Elements with class ${divClassName}`);
+        if (!index_js_1.getHtmlElemById(targetId, document))
+            index_js_1.err(`No Html Elements with class ${targetId}`);
+        this.contentsDiv = index_js_1.getHtmlElemByClassNm(divClassName, document);
         this.targetId = targetId;
     }
     clickHandler(e) { throw "must override"; }
@@ -16,14 +19,18 @@ export const reportUser = class {
         this.contentsDiv.addEventListener('click', this.clickHandler);
     }
 };
-export const subController = class {
+exports.reportUser = reportUser;
+const subController = class {
     constructor() { }
     getHtmlElemByClassNm(className, domElem) { return domElem.querySelector(`.${className}`); }
 };
-export const serviceDisplay = class {
+exports.subController = subController;
+class serviceDisplay {
     constructor() { }
     ctrlEditDisplayHtml(y_edit_Html, n_edit_Html) {
         y_edit_Html.hidden = !y_edit_Html.hidden;
         n_edit_Html.hidden = !n_edit_Html.hidden;
     }
-};
+}
+exports.serviceDisplay = serviceDisplay;
+;

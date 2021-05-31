@@ -43,8 +43,6 @@ class DBOperator{
     getSgPostPgDatas=async(type,postId)=>{
         let userInfo = await this.getPostData(type,postId)
         let commentInfo = await this.getCommentsData(postId)
-        console.log("userInfo in DBOperator",userInfo)
-        console.log("commentInfo in DBOperator",commentInfo)
         return {userInfo,commentInfo}
     }
     hdErrPost=(postData)=>{if(!postData[0])return new nullPost()}
