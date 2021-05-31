@@ -28,4 +28,5 @@ export class serviceDisplay {
     ctrlEditDisplayHtml(y_edit_Html:HTMLElement,n_edit_Html:HTMLElement):void{
         y_edit_Html.hidden = !y_edit_Html.hidden; n_edit_Html.hidden = !n_edit_Html.hidden 
     }
+    hello(){return console.log("hello")}
 };

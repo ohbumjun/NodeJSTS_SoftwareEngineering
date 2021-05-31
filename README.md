@@ -60,41 +60,223 @@
 5. 방문자는 마이 페이지에서 본인이 작성한 후기 혹은 특정 게시글에 대한 댓글을 수정하거나 삭제할 수 있습니다.
 
 
-***
 ## 2. Domain Models
-
+***
 프로젝트에 사용된 Domain Model의 responsibility들입니다.
 
-***
+
 ### Controller
-```
+***
+
 Type은 D(data), C(Controller)이며 커뮤니티 페이지의 모든 activity들을 관리합니다.
+
+아래와 같이 Controller는 subController로 정의되었습니다.
+```javascript
+
+export const subController = class{
+    constructor(){}
+    getHtmlElemByClassNm(className : string, domElem:HTMLElement|Document):HTMLElement|null{return domElem.querySelector(`.${className}`)}
+}
+
 ```
+
+그리고 마이페이지에 대한 컨트롤러는 따로 public/js/mypage.ts경로에 정의되어 있습니다.
+
+```javascript
+const mypageSubController = class extends subController{
+    mypageDomElems : domElems = {'post':'','comment':''}
+    constructor(postClassNm:string,cmtClassNm:string){
+        super()
+        this.mypageDomElems['post']   =document.querySelectorAll(`${postClassNm}`) as NodeListOf<HTMLElement>
+        this.mypageDomElems['comment']=document.querySelectorAll(`${cmtClassNm}`) as NodeListOf<HTMLElement>
+    }
+    createClickHandler=(type:string)=>(e:any)=>{
+        let editContentsDiv =getHtmlElemByClassNm(`${type}-edit-open`,e.currentTarget) as HTMLDivElement
+        let editBtnsDiv     =getHtmlElemByClassNm(`${type}-edit-buttons`,e.currentTarget) as HTMLDivElement
+        let content         =getHtmlElemByClassNm(`${type}-description`,e.currentTarget) as HTMLParagraphElement
+        let editContent     =getHtmlElemByClassNm(`${type}-edit-input`,e.currentTarget) as HTMLTextAreaElement
+        let contentId ;
+        // display change
+        if(e.target.id == `${type}-edit` || e.target.id == `${type}-cancel`){ // 수정 button
+            // edit content에 내용 넣기 
+            if(editContent && content) editContent.value = content.innerText
+            new mypageServiceDisplay().ctrlEditDisplayHtml(editContentsDiv!,editBtnsDiv!)
+        }
+        // edit
+        if(e.target.id==`${type}-insert`){
+            contentId = getHtmlElemByClassNm(`${type}-id`,e.currentTarget)
+            if(!contentId) err(`No ${type} Id`) 
+            if(editContent && contentId) fetchReqInst.editORdeleteContent(`/community/edit${type}`,{content:editContent.value,contentId:Number(contentId!.innerText)})
+        }
+        // delete
+        if(e.target.id==`${type}-delete`){
+            contentId = getHtmlElemByClassNm(`${type}-id`,e.currentTarget)
+            if(!contentId) err(`No ${type} Id`) 
+            fetchReqInst.editORdeleteContent(`/community/delete${type}`,{contentId:Number(contentId!.innerText)})
+        }
+    }
+    assignClickHandler=()=>{
+        this.mypageDomElems['post'].forEach((elem:HTMLElement)=>elem.addEventListener('click',this.createClickHandler('post')))
+        this.mypageDomElems['comment'].forEach((elem:HTMLElement)=>elem.addEventListener('click',this.createClickHandler('comment')))
+    }
+}
+
+```
+마이 페이지에서 유저가 작성한 각 게시글, 댓글이 존재할 때 그에 해당하는 수정 및 삭제 버튼을 클릭했을때 발생하는 이벤트를 관리하는 
+
+핸들러가 있습니다. 
+
+위 클래스는 이러한 핸들러를 생성하는 createClickHandler 메서드, 그리고 html element에 clickhandler를 assign하는 assignClickHanlder 메서드로 구성됩니다.
+
 ### InputEntry
+***
 ```
 Type은 D(data), B(Boundary)이며 사용자가 입력한 값을 전달하는 데 사용됩니다.
 ```
+
 ### ServiceDisplay
+***
+
+Type은 D(data), B(Boundary)이며 웹페이지를 디스플레이 하는 역할을 합니다. 디스플레이 되는 템플릿은 .ejs 파일을 사용하고 있습니다.
+
+유저 본인이 게시한 게시글, 댓글을 조회할 수 있는 마이페이지는 mypageServiceDisplay라는 클래스가 ServiceDisplay를 상속하여 디스플레이합니다.
+
+* ServiceDisplay 클래스
+```javascript
+export const serviceDisplay = class {
+    constructor() { }
+    ctrlEditDisplayHtml(y_edit_Html:HTMLElement,n_edit_Html:HTMLElement):void{
+        y_edit_Html.hidden = !y_edit_Html.hidden; n_edit_Html.hidden = !n_edit_Html.hidden 
+    }
+};
 ```
-Type은 D(data), B(Boundary)이며 웹페이지를 디스플레이 하는 역할을 합니다.
+
+* mypageServiceDisplay 클래스
+```javascript
+const mypageServiceDisplay = class extends serviceDisplay {}
+
 ```
+
 ### UserInput
+***
 ```
 Type은 K(know), B(Boundary)이며 사용자의 입력 값을 저장합니다.
 ```
+
 ### DBOperator
-```
+***
 Type은 D(Data), B(Boundary)이며 쿼리문을 받아 해당 쿼리문을 처리해서 결과를 받아오거나 그 결과를 DB에
 
 입력합니다.
+
+* DBOperator 클래스 코드
+```javascript
+export class DBOperator{
+    constructor(){}
+    getPostsPgDatas=(type:string)=>()=>{
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+            select * from 
+                (select * from post where post_type = ? 
+                    ORDER BY views DESC LIMIT 3) displayreview `,
+            type, async (error:any, result:any) => {
+                if(error){
+                    console.log("user Error",error)
+                    reject(new Error())
+                }
+                resolve(result)
+            })
+        })
+    }
+    getSgPostPgDatas=(type:string,postId:number)=>{
+        let userInfo = this.getUserData(type,postId)
+        let commentInfo = this.getCommentsData(postId)
+        Promise.all([userInfo(),commentInfo()])
+        .then((results:any)=>{
+            let userInfo = results[0][0] // 객체 형태로 전달
+            let commentInfo = results[1] // 배열 형태로 전달
+            return res.render('post_single.ejs',{userInfo,commentInfo})
+        })
+        .catch(err=>console.log(err))
+    }
+    getUserData=(type,postId)=>()=>{
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from post 
+                join user
+                on post.user_id = user.user_id
+                where post_type = ? and post_id = ?`,
+                ["후기",postId], 
+                async (error, userData) => {
+                if(error){
+                    // console.log("user Error",error)
+                    reject(new Error())
+                }
+                resolve(userData)
+            })
+        })
+    }
+    
+    getCommentsData=(postId)=>()=>{
+        // Comment Info
+        return new Promise((resolve,reject) =>{
+            connection.db.query( `
+                select * from comment 
+                join user
+                on comment.user_id = user.user_id
+                where post_id = ?`,
+                [postId], 
+                async (error, commentData) => {
+                if(error){
+                    // console.log("comment Error",error)
+                    reject(new Error())
+                }
+                resolve(commentData)
+            })
+        })
+    }
+}
+
 ```
-***
+
+
 ### PostProcessor
 ***
+
+
+Type은 D(Data), C(Controller)이며 이는 클래스로 다음과 같이 구현 되었습니다.
+```javascript
+class postProcessor{
+    searchTargets: any;
+    searchTitleElem : HTMLInputElement;
+    constructor(){
+        this.searchTargets = document.querySelectorAll('[data-search]') as NodeListOf<HTMLElement>
+        this.searchTitleElem = getHtmlElemByClassNm('post-search-input',document) as HTMLInputElement
+        console.log("this.searchTitleElem",this.searchTitleElem)
+    }
+    searchTitle=():void=>{
+        let query = this.searchTitleElem!.value
+        console.log("query",query)
+        this.searchTargets.forEach((post:HTMLElement)=>{
+            let postTitle = getHtmlElemByClassNm('title',post)?.textContent
+            query.split('').map(word=>{
+                if(postTitle!.toLowerCase().indexOf(word.toLowerCase())!=-1){ //항목 포함 
+                    if(post.classList.contains('hidden'))post.classList.remove('hidden')
+                }else{
+                    if(!post.classList.contains('hidden'))post.classList.add('hidden')
+                }
+            })
+        })
+    }
+    connectEvtHandler=()=>{
+        this.searchTitleElem!.addEventListener('keydown',this.searchTitle)
+    }
+}
 ```
-Type은 D(Data), C(Controller)이며 자주 사용될 쿼리문의 형식을 저장해 두었다가, DBOperator에 사용될
-쿼리로 넘겨주는 역할을 합니다.
-```
+해당 클래스에는 게시글의 제목을 기준으로 검색을 수행하는 void 타입의 searchTitle이라는 메서드가 존재합니다.
+
+
+즉 이 클래스는 게시글을 검색하는 기능을 수행하는 클래스입니다.
 
 ### PersonalInfoDisplay
 ***
@@ -104,8 +286,26 @@ Type은 K(know), B(Boundary)이며 유저에 대한 개인 정보를 디스플�
 
 ### ReportUser
 ***
-```
+
 Type은 D(data), B(Boundary)이며 커뮤니티 정책을 위반하는 게시글 및 댓글을 신고합니다.
+
+*reportUser 클래스 코드
+```javascript
+export const reportUser = class {
+    contentId : number = 0 ;
+    targetId : string = '';
+    contentsDiv : HTMLElement | null = null ;
+    constructor(divClassName : string, targetId : string){
+        if(!getHtmlElemByClassNm(divClassName,document)) err(`No Html Elements with class ${divClassName}`)
+        if(!getHtmlElemById(targetId,document)) err(`No Html Elements with class ${targetId}`)
+        this.contentsDiv = getHtmlElemByClassNm(divClassName,document)
+        this.targetId = targetId 
+    }
+    clickHandler(e:any):void{throw "must override"}
+    connectClickHandler() : void {
+        this.contentsDiv!.addEventListener('click',this.clickHandler)
+    }
+}
 ```
 
 ### RedirectUser
@@ -114,10 +314,10 @@ Type은 D(data), B(Boundary)이며 커뮤니티 정책을 위반하는 게시글
 Type은 D(Data), B(Boundary)이며 사용자가 웹 페이지에서 버튼을 클릭하거나 웹 페이지에
 url을 바꾸었을 때 이에 해당하는 페이지로 이동할 수 있도록 처리합니다.
 ```
-***
+
 
 ## 3. Sequence Diagram
-
+***
 
 sequence diagram은 Use case 1,2를 제외하고 각 Use case별로 작성되었습니다.
 각 use case별 sequence Diagram은 다음과 같습니다.
@@ -146,8 +346,7 @@ sequence diagram은 Use case 1,2를 제외하고 각 Use case별로 작성되었
 ![6](https://user-images.githubusercontent.com/11494592/120093684-cd42fe00-c156-11eb-90ba-a75f2eb5e9b1.PNG)
 
 
-게시물에 대한 댓글 작성, 삭제, 수정 그리고 커뮤니티 정책을 위반하는 댓글을 신고하는 기능을 표현한 sequence diagram입니다.
-
+게시물에 대한 댓글 작성, 삭제, 수정 그리고 커뮤니티 정책을 위반하는 댓글을 신고하는 기능을 표현한 sequence diagram입니다
 ### Use Case 5
 ***
 ![use case 5-1](https://user-images.githubusercontent.com/11494592/120093898-295a5200-c158-11eb-81cb-44b6bdfede4f.png)
@@ -167,7 +366,10 @@ sequence diagram은 Use case 1,2를 제외하고 각 Use case별로 작성되었
 ***
 
 ***
-![1  displayTop3 ](https://user-images.githubusercontent.com/11494592/120106311-7c072e80-c197-11eb-8423-e571c9a8ba07.PNG) 페해당 메인 페이지에서 스크롤해서 내려보면 위와 같이 자유, 후기, 준비 게시판 각각의 조회수 기준 상위 3개의 게시글들이
+![1  displayTop3 ](https://user-images.githubusercontent.com/11494592/120106311-7c072e80-c197-11eb-8423-e571c9a8ba07.PNG) 
+
+
+해당 메인 페이지에서 스크롤해서 내려보면 위와 같이 자유, 후기, 준비 게시판 각각의 조회수 기준 상위 3개의 게시글들이
 디스플레이 됨을 알 수 있습니다.
 ***
 ![슬라이드3](https://user-images.githubusercontent.com/11494592/120094230-295b5180-c15a-11eb-9dc2-3d0a6f0cbe50.JPG)
@@ -218,6 +420,7 @@ mypage는 현재 로그인한 유저가 작성한 게시글 및 댓글에 대한
 만일 후기 댓글들을 작성한 사람이 현재 로그인한 본인이라면 위와 같이 edit comment, delete comment 버튼이 나타나서 본인이 작성한 후기 댓글을 수정하거나 삭제할 수 있습니다.
 
 그리고 맨 밑에 Leave a Reply 파트에 원하는 내용을 입력한 다음 post comment를 클릭하면 해당 내용의 후기 댓글이 작성됩니다.
+
 
 ## Built With
 

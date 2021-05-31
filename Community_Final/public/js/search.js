@@ -27,26 +27,7 @@ class postProcessor {
         };
         this.searchTargets = document.querySelectorAll('[data-search]');
         this.searchTitleElem = index_js_1.getHtmlElemByClassNm('post-search-input', document);
-        console.log("this.searchTitleElem", this.searchTitleElem);
     }
 }
 const postProcessorInst = new postProcessor();
 postProcessorInst.connectEvtHandler();
-/*
-let searchedPosts = document.querySelectorAll('[data-search]') as NodeListOf<HTMLElement>
-let searchWordElem = getHtmlElemByClassNm('post-search-input',document) as HTMLInputElement
-const searchPosts=()=>{
-    let query = searchWordElem.value
-    searchedPosts.forEach((post:HTMLElement)=>{
-        let postTitle = getHtmlElemByClassNm('title',post)?.textContent
-        query.split('').map(word=>{
-            if(postTitle!.toLowerCase().indexOf(word.toLowerCase())!=-1){ //항목 포함
-                if(post.classList.contains('hidden'))post.classList.remove('hidden')
-            }else{
-                if(!post.classList.contains('hidden'))post.classList.add('hidden')
-            }
-        })
-    })
-}
-if(searchWordElem)searchWordElem.addEventListener('keydown',searchPosts)
-*/ 

@@ -1,15 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const classes_1 = require("../../../public/js/classes");
+jest.mock("../../../public/js/classes");
 describe('serviceDisplay test suite', () => {
-    let serviceDisplayT;
+    let serviceDisplayMock = {
+        ctrlEditDisplayHtml: jest.fn(),
+        hello: jest.fn()
+    };
     beforeEach(() => {
-        serviceDisplayT = new classes_1.serviceDisplay();
+        serviceDisplayMock = new classes_1.serviceDisplay();
     });
     afterEach(() => {
         jest.clearAllMocks();
     });
-    test('test ctrlEditDisplayHtml func', () => {
-        console.log("hello");
+    test('ctrlEditDisplayHtml to be called', () => {
+        expect(serviceDisplayMock.hello).toBeCalled();
     });
 });

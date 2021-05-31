@@ -31,6 +31,7 @@ class serviceDisplay {
         y_edit_Html.hidden = !y_edit_Html.hidden;
         n_edit_Html.hidden = !n_edit_Html.hidden;
     }
+    hello() { return console.log("hello"); }
 }
 exports.serviceDisplay = serviceDisplay;
 ;

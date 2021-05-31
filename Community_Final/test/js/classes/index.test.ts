@@ -1,14 +1,20 @@
 import {serviceDisplay} from "../../../public/js/classes"
 
+jest.mock("../../../public/js/classes")
+
 describe('serviceDisplay test suite',()=>{
-    let serviceDisplayT : serviceDisplay
+    let serviceDisplayMock : serviceDisplay= {
+        ctrlEditDisplayHtml : jest.fn(),
+        hello : jest.fn()
+    }
     beforeEach(()=>{
-        serviceDisplayT = new serviceDisplay()
+        serviceDisplayMock = new serviceDisplay()
     })
     afterEach(()=>{
         jest.clearAllMocks();
     })
-    test('test ctrlEditDisplayHtml func',()=>{
-        console.log("hello")
+    test('ctrlEditDisplayHtml to be called',()=>{
+        expect(serviceDisplayMock.hello).toBeCalled()
     })
+    
 })
